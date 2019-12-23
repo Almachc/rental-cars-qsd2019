@@ -1,0 +1,16 @@
+<%= form_with model: @car_model, local: true do |form| %>
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name %>
+    <%= form.label :year, 'Ano' %>
+    <%= form.text_field :year %>
+    <%= form.label :manufacturer_id, 'Fabricante' %>
+    <%= form.collection_select :manufacturer_id, @manufacturers, :id, :name %>
+    <%= form.label :motorization, 'Cavalos' %>
+    <%= form.text_field :motorization %>
+    <%= form.label :car_category_id, 'Categoria' %>
+    <%= form.collection_select :car_category_id, @car_categories, :id, :name %>
+    <%= form.label :fuel_type, 'Tipo de combustível' %>
+    <%= form.text_field :fuel_type %>
+    <%= form.submit 'Enviar' %>
+<% end %>
+

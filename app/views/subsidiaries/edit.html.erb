@@ -1,0 +1,19 @@
+<h1>Atualizar Filial</h1>
+
+<% if @subsidiary.errors.any? %>
+  <p>Você deve corrigir os seguintes erros para continuar:</p>
+
+  <% @subsidiary.errors.full_messages.each do |message| %>
+    <p><%= message %></p>
+  <% end %>
+<% end %>
+
+<%= form_with model: @subsidiary, local: true do |form| %>
+    <%= form.label :name, 'Nome'  %>
+    <%= form.text_field :name %>
+    <%= form.label :cnpj, 'CNPJ'%>
+    <%= form.text_field :cnpj %>
+    <%= form.label :address, 'Endereço'%>
+    <%= form.text_field :address %>
+    <%= form.submit 'Enviar' %>
+<% end %>

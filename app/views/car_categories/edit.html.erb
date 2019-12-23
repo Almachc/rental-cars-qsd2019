@@ -1,0 +1,21 @@
+<h1>Cadastrar categoria</h1>
+
+<% if @car_category.errors.any? %>
+    <p>Você deve corrigir os seguintes erros para continuar:</p>
+
+    <% @car_category.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+    <% end %>
+<% end %>
+
+<%= form_with model: @car_category, local: true do |form| %>
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name %>
+    <%= form.label :daily_rate, 'Diária' %>
+    <%= form.text_field :daily_rate %>
+    <%= form.label :car_insurance, 'Seguro do carro' %>
+    <%= form.text_field :car_insurance %>
+    <%= form.label :third_party_insurance, 'Seguro contra terceiros' %>
+    <%= form.text_field :third_party_insurance %>
+    <%= form.submit 'Enviar' %>
+<% end %>
