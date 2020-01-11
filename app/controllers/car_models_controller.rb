@@ -19,7 +19,9 @@ class CarModelsController < ApplicationController
             flash[:notice] = 'Modelo cadastrado com sucesso'
             redirect_to @car_model
         else   
-            #render :new
+            @car_categories = CarCategory.all
+            @manufacturers = Manufacturer.all
+            render :new
         end
     end
 end
