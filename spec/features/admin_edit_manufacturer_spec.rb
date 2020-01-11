@@ -11,6 +11,7 @@ feature 'Admin edits manufacturer' do
     fill_in 'Nome', with: 'Honda'
     click_on 'Enviar'
 
+    expect(page).to have_content('Fabricante editada com sucesso')
     expect(page).to have_content('Honda')
   end
 

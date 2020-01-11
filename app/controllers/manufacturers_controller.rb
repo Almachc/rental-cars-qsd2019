@@ -29,6 +29,7 @@ class ManufacturersController < ApplicationController
   def update
     @manufacturer = Manufacturer.find(params[:id])
     if @manufacturer.update(manufacturer_params)
+      flash[:notice] = 'Fabricante editada com sucesso'
       redirect_to @manufacturer
     else
       render :edit
