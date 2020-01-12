@@ -1,0 +1,9 @@
+<%= flash[:notice] %>
+
+<%= @client.name %>
+<%= @client.cpf %>
+<%= @client.email %>
+
+<%= link_to 'Editar', edit_client_path(@client) %>
+<%= link_to 'Deletar', client_path(@client), method: :delete %>
+<%= link_to 'Voltar', root_path %>
