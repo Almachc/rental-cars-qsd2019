@@ -21,7 +21,7 @@ class ClientsController < ApplicationController
             flash[:notice] = 'Cliente registrado com sucesso'
             redirect_to @client
         else
-            # render :new
+            render :new
         end
     end
 
@@ -31,7 +31,7 @@ class ClientsController < ApplicationController
             flash[:notice] = 'Cliente editado com sucesso'
             redirect_to @client
         else
-            # render :edit
+            render :edit
         end
     end
 
