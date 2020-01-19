@@ -3,9 +3,11 @@ require 'rails_helper'
 feature 'Admin edits car category' do
     scenario 'successfully' do
         #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
         CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
 
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
         click_on 'T1'
@@ -26,9 +28,11 @@ feature 'Admin edits car category' do
 
     scenario '(all fields must be filled)' do
        #Arrange
+       user = User.create!(email: 'teste@teste.com', password: '123456')
        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
 
        #Act
+       login_as(user, scope: :user)
        visit root_path
        click_on 'Categorias de carro'
        click_on 'T1'
@@ -49,9 +53,11 @@ feature 'Admin edits car category' do
 
     scenario '(daily rate, car insurance and third party insurance must be greater than zero)' do
         #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
         CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
 
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
@@ -73,5 +79,21 @@ feature 'Admin edits car category' do
         expect(page).to have_content('Diária deve ser maior que zero')
         expect(page).to have_content('Seguro do carro deve ser maior que zero')
         expect(page).to have_content('Seguro contra terceiros deve ser maior que zero')
+    end
+
+    scenario '(must be authenticated to have access to the edit form)' do
+        #Act
+        visit edit_car_category_path(3301)
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
+
+    scenario '(must be authenticated to edit it)' do
+        #Act
+        page.driver.submit :patch, car_category_path(3301), {}
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
     end
 end

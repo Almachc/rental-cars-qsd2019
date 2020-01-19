@@ -3,10 +3,12 @@ require 'rails_helper'
 feature 'Admin registers car model' do
     scenario 'successfully' do
         #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
         Manufacturer.create(name: 'Fiat')
         CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
 
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Modelos de carro'
         click_on 'Cadastrar novo modelo'
@@ -31,7 +33,11 @@ feature 'Admin registers car model' do
     end
 
     scenario '(all fields must be filled)' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Modelos de carro'
 
@@ -47,4 +53,20 @@ feature 'Admin registers car model' do
         expect(page).to have_content('Categoria deve ser preenchido')
         expect(page).to have_content('Tipo de combustível deve ser preenchido')
     end
+
+    scenario '(must be authenticated to access the create form)' do
+        #Act
+        visit new_car_model_path
+    
+        #Assert
+        expect(current_path).to eq new_user_session_path
+      end
+    
+      scenario '(must be authenticated to register it)' do
+        #Act
+        page.driver.submit :post, car_models_path, {}
+    
+        #Assert
+        expect(current_path).to eq new_user_session_path
+      end
 end

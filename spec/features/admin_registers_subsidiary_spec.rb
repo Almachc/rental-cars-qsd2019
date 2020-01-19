@@ -2,7 +2,11 @@ require 'rails_helper'
 
 feature 'Admin registers subsidiary' do
     scenario 'successfully' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
@@ -22,9 +26,11 @@ feature 'Admin registers subsidiary' do
 
     scenario '(cnpj must be unique)' do
         #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
         filial = Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste1')
 
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
@@ -44,7 +50,11 @@ feature 'Admin registers subsidiary' do
     end
 
     scenario '(cnpj must be valid)' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
@@ -57,5 +67,21 @@ feature 'Admin registers subsidiary' do
 
         #Assert
         expect(page).to have_content('CNPJ deve ser válido')
+    end
+
+    scenario '(must be authenticated to access the create form)' do
+        #Act
+        visit new_subsidiary_path
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
+
+    scenario '(must be authenticated to register it)' do
+        #Act
+        page.driver.submit :post, subsidiaries_path, {}
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
     end
 end

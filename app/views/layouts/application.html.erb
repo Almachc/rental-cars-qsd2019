@@ -13,14 +13,14 @@
     <nav>
       <% if user_signed_in? %>
         <%= link_to 'Sair', destroy_user_session_path, method: :delete %>
+        <%= link_to 'Fabricantes', manufacturers_path %>
+        <%= link_to 'Filiais', subsidiaries_path %>
+        <%= link_to 'Categorias de carro', car_categories_path %>
+        <%= link_to 'Modelos de carro', car_models_path %>
+        <%= link_to 'Clientes', clients_path %>
       <% else %>
         <%= link_to 'Entrar', new_user_session_path %>
       <% end %>
-      <%= link_to 'Clientes', clients_path %>
-      <%= link_to 'Fabricantes', manufacturers_path %>
-      <%= link_to 'Filiais', subsidiaries_path %>
-      <%= link_to 'Categorias de carro', car_categories_path %>
-      <%= link_to 'Modelos de carro', car_models_path %>
     </nav>
 
     <% #deixar temporariamente %>

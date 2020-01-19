@@ -2,7 +2,11 @@ require 'rails_helper'
 
 feature 'Admin registers car category' do
     scenario 'successfully' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+        
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
@@ -23,7 +27,11 @@ feature 'Admin registers car category' do
     end
 
     scenario '(all fields must be filled)' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
@@ -39,7 +47,11 @@ feature 'Admin registers car category' do
     end
 
     scenario '(daily Rate, car insurance and third party insurance must be greater than zero)' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+        
         #Act
+        login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
@@ -60,5 +72,21 @@ feature 'Admin registers car category' do
         expect(page).to have_content('Diária deve ser maior que zero')
         expect(page).to have_content('Seguro do carro deve ser maior que zero')
         expect(page).to have_content('Seguro contra terceiros deve ser maior que zero')
+    end
+
+    scenario '(must be authenticated to have access to the create form)' do
+        #Act
+        visit new_car_category_path
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
+
+    scenario '(must be authenticated to create it)' do
+        #Act
+        page.driver.submit :post, car_categories_path, {}
+        
+        #Assert
+        expect(current_path).to eq new_user_session_path
     end
 end
