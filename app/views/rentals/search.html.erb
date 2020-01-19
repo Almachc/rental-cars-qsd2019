@@ -1,0 +1,12 @@
+<p>Foram encontrado(s) <%= @rentals.count %> resultado(s)
+<table>
+    <% @rentals.each do |rental| %>
+        <tr>
+            <td><%= rental.code %></td>
+            <td><%= rental.start_date.strftime('%d/%m/%Y') %></td>
+            <td><%= rental.end_date.strftime('%d/%m/%Y') %></td>
+            <td><%= rental.client.name %></td>
+            <td><%= rental.car_category.name %></td>
+        </tr>
+    <% end %>
+</table>

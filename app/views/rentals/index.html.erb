@@ -1,0 +1,7 @@
+<h1>Locações</h1>
+
+<%= form_tag("/rentals/search", method: "get") do %>
+  <%= label_tag(:q, "Pesquisar") %>
+  <%= text_field_tag(:q) %>
+  <%= submit_tag("Buscar") %>
+<% end %>
