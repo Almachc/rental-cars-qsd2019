@@ -9,9 +9,11 @@ feature 'User sign_out' do
         visit root_path
         click_on 'Entrar'
 
-        fill_in 'Email', with: 'user1@gmail.com'
-        fill_in 'Password', with: '123456'
-        click_on 'Log in'
+        within 'form' do 
+            fill_in 'Email', with: 'user1@gmail.com'
+            fill_in 'Senha', with: '123456'
+            click_on 'Entrar'
+        end
         
         click_on 'Clientes'
 

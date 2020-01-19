@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Admin register car_model' do
+feature 'Admin registers car model' do
     scenario 'successfully' do
         #Arrange
         Manufacturer.create(name: 'Fiat')
@@ -14,7 +14,7 @@ feature 'Admin register car_model' do
         fill_in 'Nome', with: 'ModeloTeste1'
         fill_in 'Ano', with: '2019'
         select 'Fiat', from: 'Fabricante'
-        fill_in 'Cavalos', with: '50'
+        fill_in 'Motorização', with: '50'
         select 'T1', from: 'Categoria'
         fill_in 'Tipo de combustível', with: 'Etanol'
 
@@ -30,19 +30,21 @@ feature 'Admin register car_model' do
         expect(page).to have_content('Etanol')
     end
 
-    scenario 'all fields must be filled' do
+    scenario '(all fields must be filled)' do
         #Act
         visit root_path
         click_on 'Modelos de carro'
+
         click_on 'Cadastrar novo modelo'
+
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('Nome não deve ficar em branco')
-        expect(page).to have_content('Ano não deve ficar em branco')
-        expect(page).to have_content('Fabricante não deve ficar em branco')    
-        expect(page).to have_content('Cavalos não deve ficar em branco')
-        expect(page).to have_content('Categoria não deve ficar em branco')
-        expect(page).to have_content('Tipo de combustível não deve ficar em branco')
+        expect(page).to have_content('Nome deve ser preenchido')
+        expect(page).to have_content('Ano deve ser preenchido')
+        expect(page).to have_content('Fabricante deve ser preenchido')    
+        expect(page).to have_content('Motorização deve ser preenchido')
+        expect(page).to have_content('Categoria deve ser preenchido')
+        expect(page).to have_content('Tipo de combustível deve ser preenchido')
     end
 end

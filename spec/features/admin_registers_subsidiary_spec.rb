@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Admin register subsidiary' do
+feature 'Admin registers subsidiary' do
     scenario 'successfully' do
         #Act
         visit root_path
@@ -15,12 +15,14 @@ feature 'Admin register subsidiary' do
 
         #Assert
         expect(page).to have_content('FilialTeste')
+        expect(page).to have_content('01234567891011')
+        expect(page).to have_content('Rua Teste')
         expect(page).to have_content('Filial criada com sucesso')
     end
 
-    scenario 'cnpj must be unique' do
+    scenario '(cnpj must be unique)' do
         #Arrange
-        Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste1')
+        filial = Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste1')
 
         #Act
         visit root_path
@@ -34,10 +36,14 @@ feature 'Admin register subsidiary' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('Filial já existente')
+        expect(page).to have_field('Nome', with: 'FilialTeste1')
+        expect(page).to have_field('CNPJ', with: '01234567891011')
+        expect(page).to have_field('Endereço', with: 'Rua Teste1')
+        
+        expect(page).to have_content('Filial deve ser única')
     end
 
-    scenario 'cnpj must be valid' do
+    scenario '(cnpj must be valid)' do
         #Act
         visit root_path
         click_on 'Filiais'
@@ -50,6 +56,6 @@ feature 'Admin register subsidiary' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('CNPJ inválido')
+        expect(page).to have_content('CNPJ deve ser válido')
     end
 end

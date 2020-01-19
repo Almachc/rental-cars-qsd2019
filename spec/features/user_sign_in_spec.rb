@@ -11,8 +11,8 @@ feature 'User sign_in' do
 
         within 'form' do
             fill_in 'Email', with: 'user1@gmail.com'
-            fill_in 'Password', with: '123456'
-            click_on 'Log in'
+            fill_in 'Senha', with: '123456'
+            click_on 'Entrar'
         end
 
         #Assert

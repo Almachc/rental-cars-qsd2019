@@ -15,9 +15,9 @@
     <%= form.text_field :year %>
     <%= form.label :manufacturer_id, 'Fabricante' %>
     <%= form.collection_select :manufacturer_id, @manufacturers, :id, :name %>
-    <%= form.label :motorization, 'Cavalos' %>
+    <%= form.label :motorization, 'Motorização' %>
     <%= form.text_field :motorization %>
-    <%= form.label :car_category_id, 'Categoria' %>
+    <%= form.label :car_category_id, 'Categoria de carro' %>
     <%= form.collection_select :car_category_id, @car_categories, :id, :name %>
     <%= form.label :fuel_type, 'Tipo de combustível' %>
     <%= form.text_field :fuel_type %>

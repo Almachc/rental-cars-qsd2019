@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'Admin register car_category' do
+feature 'Admin registers car category' do
     scenario 'successfully' do
         #Act
         visit root_path
@@ -15,11 +15,14 @@ feature 'Admin register car_category' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('Categoria criada com sucesso')
         expect(page).to have_content('T1')
+        expect(page).to have_content('1.2')
+        expect(page).to have_content('1.3')
+        expect(page).to have_content('1.4')
+        expect(page).to have_content('Categoria criada com sucesso')
     end
 
-    scenario 'all fields must be filled' do
+    scenario '(all fields must be filled)' do
         #Act
         visit root_path
         click_on 'Categorias de carro'
@@ -35,7 +38,7 @@ feature 'Admin register car_category' do
         expect(page).to have_content('Seguro contra terceiros deve ser preenchido')
     end
 
-    scenario 'and Daily Rate, car insurance and third party insurance must be greater than zero' do
+    scenario '(daily Rate, car insurance and third party insurance must be greater than zero)' do
         #Act
         visit root_path
         click_on 'Categorias de carro'
@@ -49,6 +52,11 @@ feature 'Admin register car_category' do
         click_on 'Enviar'
 
         #Assert
+        expect(page).to have_field('Nome', with: 'T1')
+        expect(page).to have_field('Diária', with: '0')
+        expect(page).to have_field('Seguro do carro', with: '0')
+        expect(page).to have_field('Seguro contra terceiros', with: '0')
+
         expect(page).to have_content('Diária deve ser maior que zero')
         expect(page).to have_content('Seguro do carro deve ser maior que zero')
         expect(page).to have_content('Seguro contra terceiros deve ser maior que zero')

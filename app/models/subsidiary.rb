@@ -1,3 +1,5 @@
 class Subsidiary < ApplicationRecord
-    validates :cnpj, uniqueness: {message: 'Filial já existente'}, format: {with: /\d{14}/, message: 'CNPJ inválido'}
+    validates :cnpj,
+        uniqueness: {message: 'Filial deve ser única'},
+        format: {with: /\d{14}/, message: 'CNPJ deve ser válido'}
 end
