@@ -1,5 +1,7 @@
 <h1>Locações</h1>
 
+<%= link_to 'Registrar nova locação', new_rental_path %>
+
 <%= form_tag("/rentals/search", method: "get") do %>
   <%= label_tag(:q, "Pesquisar") %>
   <%= text_field_tag(:q) %>

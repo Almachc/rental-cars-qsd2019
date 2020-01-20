@@ -7,9 +7,9 @@ feature 'User search rentals' do
 
         client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
         car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
-        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
-        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
+        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
@@ -35,9 +35,9 @@ feature 'User search rentals' do
 
         client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
         car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
-        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
-        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category)
+        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
