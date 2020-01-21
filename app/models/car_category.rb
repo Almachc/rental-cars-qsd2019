@@ -1,4 +1,6 @@
 class CarCategory < ApplicationRecord
+    has_many :car_models
+
     validates :name, 
         presence: {message: 'Nome deve ser preenchido'}
 

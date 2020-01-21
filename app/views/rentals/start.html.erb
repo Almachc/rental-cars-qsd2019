@@ -1,0 +1,7 @@
+<h1>Escolha um dos carros disponíveis:</h1>
+
+<%= form_with url: rental_car_rentals_path(@rental), local: true do %>
+    <%= label_tag :car_id, 'Carro' %>
+    <%= select_tag :car_id, options_from_collection_for_select(@cars, :id, :full_description) %>
+    <%= submit_tag 'Efetivar' %>
+<% end %>

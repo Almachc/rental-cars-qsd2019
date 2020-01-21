@@ -8,5 +8,8 @@ Rails.application.routes.draw do
   resources :clients
   resources :rentals, only: [:index, :show, :new, :create] do
     get 'search', on: :collection
+    get 'start', on: :member
+    resources :car_rentals, only: [:create]
   end
+  resources :car_rentals, only: [:show]
 end

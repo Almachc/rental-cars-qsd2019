@@ -1,12 +1,13 @@
 <p>Foram encontrado(s) <%= @rentals.count %> resultado(s)
 <table>
     <% @rentals.each do |rental| %>
-        <tr>
+        <tr id='rental-<%= rental.id %>'>
             <td><%= rental.code %></td>
             <td><%= rental.start_date.strftime('%d/%m/%Y') %></td>
             <td><%= rental.end_date.strftime('%d/%m/%Y') %></td>
             <td><%= rental.client.name %></td>
             <td><%= rental.car_category.name %></td>
+            <td><%= link_to 'Efetivar locação', start_rental_path(id: rental.id) %></td>
         </tr>
     <% end %>
 </table>

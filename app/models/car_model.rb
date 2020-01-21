@@ -1,6 +1,7 @@
 class CarModel < ApplicationRecord
   belongs_to :manufacturer
   belongs_to :car_category
+  has_many :cars
 
   validates :name, presence: { message: 'Nome deve ser preenchido'}
   validates :year, presence: { message: 'Ano deve ser preenchido'}

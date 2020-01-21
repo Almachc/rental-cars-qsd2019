@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_19_234453) do
+ActiveRecord::Schema.define(version: 2020_01_21_014139) do
 
   create_table "car_categories", force: :cascade do |t|
     t.string "name"
@@ -32,6 +32,29 @@ ActiveRecord::Schema.define(version: 2020_01_19_234453) do
     t.datetime "updated_at", null: false
     t.index ["car_category_id"], name: "index_car_models_on_car_category_id"
     t.index ["manufacturer_id"], name: "index_car_models_on_manufacturer_id"
+  end
+
+  create_table "car_rentals", force: :cascade do |t|
+    t.integer "rental_id"
+    t.integer "car_id"
+    t.decimal "price"
+    t.integer "start_mileage"
+    t.integer "end_mileage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_car_rentals_on_car_id"
+    t.index ["rental_id"], name: "index_car_rentals_on_rental_id"
+  end
+
+  create_table "cars", force: :cascade do |t|
+    t.string "license_plate"
+    t.string "color"
+    t.integer "car_model_id"
+    t.integer "mileage"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_model_id"], name: "index_cars_on_car_model_id"
   end
 
   create_table "clients", force: :cascade do |t|
