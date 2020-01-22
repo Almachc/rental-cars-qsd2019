@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     get 'start', on: :member
     resources :car_rentals, only: [:create]
   end
+  resources :cars, only: [:index, :show, :new, :create]
   resources :car_rentals, only: [:show]
 end

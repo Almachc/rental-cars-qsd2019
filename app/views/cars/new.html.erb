@@ -1,0 +1,16 @@
+<%= form_with model: @car, local: true do |f| %>
+    <%= f.label :license_plate, 'Placa' %>
+    <%= f.text_field :license_plate %>
+    <%= f.label :color, 'Cor' %>
+    <%= f.text_field :color %>
+    <%= f.label :car_model_id, 'Modelo' %>
+    <%= f.collection_select :car_model_id, @car_models, :id, :name %>
+    <%= f.label :mileage, 'Quilometragem' %>
+    <%= f.text_field :mileage %>
+    <%= f.label :status_id, 'Status' %>
+    <%= f.select :status_id, options_for_select( @status_array ) %> 
+    <%= f.text_field :status %>
+    <%= f.submit 'Enviar' %>
+<% end %>
+
+
