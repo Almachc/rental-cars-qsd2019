@@ -1,5 +1,14 @@
 <h1>Cadastrar locação</h1>
 
+<%= flash[:notice] %>
+
+<% if @rental.errors.any? %>
+    <p>Você deve corrigir os seguintes erros para continuar:
+    <% @rental.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+    <% end %>
+<% end %>
+
 <%= form_with model: @rental, local: true do |f| %>
     <%= f.label :start_date, 'Data de início' %>
     <%= f.text_field :start_date %>
