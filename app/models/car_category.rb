@@ -16,4 +16,8 @@ class CarCategory < ApplicationRecord
     validates :third_party_insurance,
         presence: {message: 'Seguro contra terceiros deve ser preenchido'},
         numericality: { greater_than: 0, allow_nil: true, message: 'Seguro contra terceiros deve ser maior que zero' }
+
+    def total_price
+        daily_rate + car_insurance + third_party_insurance
+    end
 end

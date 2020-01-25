@@ -33,7 +33,7 @@ feature 'User starts rental' do
         expect(page).to have_content('Cliente: Cliente1 - 42074026838')
         expect(page).to have_content('Carro: Fabricante1 / Modelo1 - ABC1234 - Branco')
         expect(page).to have_content('Quilometragem: 200')
-        expect(page).to have_content('Preço: 1.2')
+        expect(page).to have_content('Preço: 3.9')
         expect(car.reload.status).to eq 'unavailable'
     end
 
@@ -74,5 +74,27 @@ feature 'User starts rental' do
         expect(page).to have_content('ABC1234')
         expect(page).to have_content('SLA9999')
         expect(page).not_to have_content('FDM2000')
+    end
+
+    scenario '(price and mileage must be obligatory)' do
+        #Arrange
+        user = User.create!(email: 'teste@teste.com', password: '123456')
+
+        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+
+        manufacturer = Manufacturer.create(name: 'Fabricante1')
+        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
+        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+
+        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
+        rental = Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+
+        car_rental = CarRental.new(rental_id: rental.id, car_id: car.id, price: nil, start_mileage: nil, end_mileage: nil)
+       
+        car_rental.valid?
+
+        #Assert
+        expect(car_rental.errors.messages[:price]).to include('O preço (baseado no custo atual da categoria) é obrigatório')
+        expect(car_rental.errors.messages[:start_mileage]).to include('A quilometragem inicial (baseada na quilometragem atual do carro) é obrigatória')
     end
 end
