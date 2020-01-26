@@ -11,11 +11,13 @@ Rails.application.routes.draw do
     get 'start', on: :member
     resources :car_rentals, only: [:create]
   end
-  namespace :api do
-    namespace :v1 do
-      resources :cars, only: [:index, :show, :create]
-    end
-  end
   resources :cars, only: [:index, :show, :new, :create]
   resources :car_rentals, only: [:show]
+  namespace :api do
+    namespace :v1 do
+      resources :cars, only: [:index, :show, :create, :update, :destroy] do
+        patch 'status', on: :member
+      end
+    end
+  end
 end
