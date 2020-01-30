@@ -31,10 +31,3 @@ class Rental < ApplicationRecord
     cars.length > rentals.length
   end
 end
-
-#car_available?
-  #1- Pegando todos os carros, a partir de todas models, vinculados à categoria dessa rental
-  #2- Pegando todas as rentals associadas a essa categoria
-  #3- Passando por cada rental e verificando se, com base nas datas, ela pode ser descartada
-  #4- Comparando se o número de carros é maior que o número de rentals (se não for, consequentemente
-  #não há carros disponíveis. Caso o número de rentals seja maior, então fodeu, alguém já fez merda)
