@@ -37,7 +37,14 @@ class RentalsController < ApplicationController
     end
 
     def search
-        @rentals = Rental.where('code LIKE ?', "%#{params[:q].upcase}%")
+        @rentals = Rental.where('code LIKE ?', "%#{params[:q].strip.upcase}%")
+        if @rentals.any?
+            flash[:notice] = "Foram encontrado(s) #{@rentals.length} resultado(s)"
+            @rentals
+        else
+            flash[:alert] = "Nenhum resultado encontrado para o seguinte código: #{params[:q]}"
+            redirect_to rentals_path
+        end
     end
 
     def start

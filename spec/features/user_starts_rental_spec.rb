@@ -22,8 +22,10 @@ feature 'User starts rental' do
         click_on 'Buscar'
 
         within("tr#rental-#{rental.id}") do
-            click_on 'Efetivar locação'
+            click_on 'Visualizar'
         end
+        
+        click_on 'Efetivar locação'
 
         select 'ABC1234', from: 'Carro'
         click_on 'Efetivar'
@@ -75,8 +77,10 @@ feature 'User starts rental' do
         click_on 'Buscar'
 
         within("tr#rental-#{rental.id}") do
-            click_on 'Efetivar locação'
+            click_on 'Visualizar'
         end
+        
+        click_on 'Efetivar locação'
 
         #Assert
         expect(page).to have_content('ABC1234')

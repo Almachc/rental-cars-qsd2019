@@ -8,7 +8,8 @@
             <td><%= rental.client.name %></td>
             <td><%= rental.car_category.name %></td>
             <td><%= link_to 'Visualizar', rental_path(rental) %></td>
-            <td><%= link_to 'Efetivar locação', start_rental_path(id: rental.id) %></td>
         </tr>
     <% end %>
 </table>
+
+<%= link_to 'Voltar', rentals_path %>

@@ -11,8 +11,9 @@
 <%= @rental.car_category.name %>
 <%= @rental.user.email %>
 
-<button>Cancelar locação</button>
+<%= link_to 'Efetivar locação', start_rental_path(id: @rental.id) %>
 
+<button>Cancelar locação</button>
 <div id='cancel-rental'>
     <%= form_with url: cancel_rental_path(@rental), method: 'patch' do |f| %>
         <%= f.label :description, 'Descrição' %>
@@ -20,3 +21,7 @@
         <%= f.submit 'Confirmar' %>
     <% end %>
 </div>
+
+<%= link_to 'Voltar', search_rentals_path %>
+
+
