@@ -1,6 +1,7 @@
 class RentalsController < ApplicationController
-    def index
+    before_action :authenticate_user!
 
+    def index
     end
 
     def show
@@ -43,6 +44,15 @@ class RentalsController < ApplicationController
         @rental = Rental.find(params[:id])
         @cars = Car.where(car_model: @rental.car_category.car_models, status: 'available')
         #@cars = @rental.car_category.cars (fazendo uso de 'has_many :cars, through: :car_models' na model 'CarCategory')
+    end
+
+    def cancel
+        @rental = Rental.find(params[:id])
+        if @rental.cancel(description: params[:description])
+            redirect_to rentals_path, notice: 'Locação cancelada com sucesso'
+        else
+            render :show
+        end
     end
 
     private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_21_014139) do
+ActiveRecord::Schema.define(version: 2020_02_01_191350) do
 
   create_table "car_categories", force: :cascade do |t|
     t.string "name"
@@ -73,13 +73,15 @@ ActiveRecord::Schema.define(version: 2020_01_21_014139) do
 
   create_table "rentals", force: :cascade do |t|
     t.string "code"
-    t.date "start_date"
-    t.date "end_date"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.integer "client_id"
     t.integer "car_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "status", default: 0
+    t.string "description"
     t.index ["car_category_id"], name: "index_rentals_on_car_category_id"
     t.index ["client_id"], name: "index_rentals_on_client_id"
     t.index ["user_id"], name: "index_rentals_on_user_id"

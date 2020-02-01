@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :rentals, only: [:index, :show, :new, :create] do
     get 'search', on: :collection
     get 'start', on: :member
+    patch 'cancel', on: :member
     resources :car_rentals, only: [:create]
   end
   resources :cars, only: [:index, :show, :new, :create]

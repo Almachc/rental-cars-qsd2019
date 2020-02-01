@@ -37,6 +37,14 @@ feature 'User starts rental' do
         expect(car.reload.status).to eq 'unavailable'
     end
 
+    scenario '(must be authenticated to access the form with valid cars)' do
+        #Act
+        visit start_rental_path(000)
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
+
     scenario '(only available cars should be displayed)' do
         #Arrange
         user = User.create!(email: 'usuario@gmail.com', password: '123456')

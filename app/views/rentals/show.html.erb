@@ -1,4 +1,8 @@
-<%= flash[:notice] %>
+<% if @rental.errors.any? %>
+    <% @rental.errors.messages.each do |message| %>
+        <p><%= message %></p>
+    <% end  %>
+<% end %>
 
 <%= @rental.code %>
 <%= @rental.start_date.strftime('%d/%m/%Y') %>
@@ -6,3 +10,13 @@
 <%= @rental.client.name %>
 <%= @rental.car_category.name %>
 <%= @rental.user.email %>
+
+<button>Cancelar locação</button>
+
+<div id='cancel-rental'>
+    <%= form_with url: cancel_rental_path(@rental), method: 'patch' do |f| %>
+        <%= f.label :description, 'Descrição' %>
+        <%= f.text_field :description %>
+        <%= f.submit 'Confirmar' %>
+    <% end %>
+</div>

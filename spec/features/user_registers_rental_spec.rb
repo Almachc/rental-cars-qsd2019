@@ -97,4 +97,20 @@ feature 'User registers rental' do
         #Assert
         expect(page).to have_content('Carros indisponíveis para esta categoria')
     end
+
+    scenario '(must be authenticated to access the register form)' do
+        #Act
+        visit new_rental_path
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
+
+    scenario '(must be authenticated to register it)' do
+        #Act
+        page.driver.submit :post, rentals_path, {}
+
+        #Assert
+        expect(current_path).to eq new_user_session_path
+    end
 end
