@@ -54,5 +54,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# My dependency imports
+# My gem imports
 gem 'devise'
+gem 'bootstrap', '~> 4.4.1'
+gem 'jquery-rails', '~> 4.3'
+gem "factory_bot_rails"
+gem 'rubocop', '~> 0.79.0', require: false
+gem 'rubocop-rails', require: false
