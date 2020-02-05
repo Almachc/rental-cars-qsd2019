@@ -3,10 +3,8 @@ require 'rails_helper'
 feature 'User cancels rental' do
     scenario 'succesfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        rental = Rental.create!(code: 'cic3333', start_date: 2.days.from_now, end_date: 5.days.from_now, client: client, car_category: car_category, user: user)
+        user = create(:user)
+        rental = create(:rental, user: user)
         
         #Act
         login_as(user, scope: :user)
@@ -36,17 +34,15 @@ feature 'User cancels rental' do
 
     scenario '(rental must be pending for the cancellation button to be displayed)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        rental = Rental.create!(code: 'cic3333', start_date: 2.days.from_now, end_date: 5.days.from_now, client: client, car_category: car_category, user: user, status: 'canceled')
+        user = create(:user)
+        rental = create(:rental, user: user, status: 'canceled')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Locações'
 
-        fill_in 'Pesquisar', with: 'cic3333'
+        fill_in 'Pesquisar', with: 'cic3301'
         click_on 'Buscar'
 
         #Assert

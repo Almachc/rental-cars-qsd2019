@@ -3,11 +3,12 @@ require 'rails_helper'
 feature 'Admin views all car models' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        manufacturer = Manufacturer.create(name: 'Fiat')
-        car_category = CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        CarModel.create!(name: 'ModeloTeste1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        CarModel.create!(name: 'ModeloTeste2', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
+        user = create(:user)
+        manufacturer = create(:manufacturer)
+        car_category = create(:car_category)
+
+        create(:car_model, name: 'HB20', manufacturer: manufacturer, car_category: car_category)
+        create(:car_model, name: 'Azera', manufacturer: manufacturer, car_category: car_category)
 
         #Act
         login_as(user, scope: :user)
@@ -15,13 +16,13 @@ feature 'Admin views all car models' do
         click_on 'Modelos de carro'
 
         #Assert
-        expect(page).to have_content('ModeloTeste1')
-        expect(page).to have_content('ModeloTeste2')
+        expect(page).to have_content('HB20')
+        expect(page).to have_content('Azera')
     end
 
     scenario 'and returns to home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)

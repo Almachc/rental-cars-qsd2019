@@ -3,42 +3,42 @@ require 'rails_helper'
 feature 'User searches rentals' do
     scenario 'by exact code' do
         #Arrange
-        user = User.create!(email: 'usuario1@gmail.com', password: '123456')
+        user = create(:user)
 
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'CIC2020', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'JUL1947', client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Locações'
-        fill_in 'Pesquisar', with: 'cic3301'
+        fill_in 'Pesquisar', with: 'CIC3301'
         click_on 'Buscar'
 
         #Assert
-        expect(page).to_not have_content('cic2020')
-        expect(page).to_not have_content('jul1947')
+        expect(page).to_not have_content('CIC2020')
+        expect(page).to_not have_content('JUL1947')
 
         expect(page).to have_content("Foram encontrado(s) 1 resultado(s)")
-        expect(page).to have_content('cic3301')
-        expect(page).to have_content(Date.current.strftime('%d/%m/%Y'))
-        expect(page).to have_content(1.day.from_now.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.code)
+        expect(page).to have_content(rental.start_date)
+        expect(page).to have_content(rental.end_date)
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
     end
 
     scenario 'by partial code' do
         #Arrange
-        user = User.create!(email: 'usuario1@gmail.com', password: '123456')
+        user = create(:user)
 
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'CIC2020', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'JUL1947', client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
@@ -48,26 +48,26 @@ feature 'User searches rentals' do
         click_on 'Buscar'
 
         #Assert
-        expect(page).to_not have_content('jul1947')
+        expect(page).to_not have_content('JUL1947')
 
         expect(page).to have_content("Foram encontrado(s) 2 resultado(s)")
-        expect(page).to have_content('cic3301')
-        expect(page).to have_content('cic2020')
-        expect(page).to have_content(Date.current.strftime('%d/%m/%Y'))
-        expect(page).to have_content(1.day.from_now.strftime('%d/%m/%Y'))
+        expect(page).to have_content('CIC3301')
+        expect(page).to have_content('CIC2020')
+        expect(page).to have_content(rental.start_date)
+        expect(page).to have_content(rental.end_date)
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
     end
 
     scenario 'by no code (must bring everyone)' do
         #Arrange
-        user = User.create!(email: 'usuario1@gmail.com', password: '123456')
+        user = create(:user)
 
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'cic2020', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'jul1947', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'CIC2020', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'JUL1947', client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
@@ -78,18 +78,18 @@ feature 'User searches rentals' do
 
         #Assert
         expect(page).to have_content("Foram encontrado(s) 3 resultado(s)")
-        expect(page).to have_content('cic2020')
-        expect(page).to have_content('jul1947')
-        expect(page).to have_content('jul1947')
-        expect(page).to have_content(Date.current.strftime('%d/%m/%Y'))
-        expect(page).to have_content(1.day.from_now.strftime('%d/%m/%Y'))
+        expect(page).to have_content('CIC3301')
+        expect(page).to have_content('CIC2020')
+        expect(page).to have_content('JUL1947')
+        expect(page).to have_content(rental.start_date)
+        expect(page).to have_content(rental.end_date)
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
     end
 
     scenario 'and no results are found' do
         #Arrange
-        user = User.create!(email: 'usuario1@gmail.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)
@@ -105,11 +105,9 @@ feature 'User searches rentals' do
 
     scenario 'and back to the rentals home page' do
         #Arrange
-        user = User.create!(email: 'usuario1@gmail.com', password: '123456')
+        user = create(:user)
 
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        create(:rental)
 
         #Act
         login_as(user, scope: :user)

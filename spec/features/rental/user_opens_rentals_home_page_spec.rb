@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'User opens rentals home page' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)
@@ -16,7 +16,7 @@ feature 'User opens rentals home page' do
 
     scenario 'and back home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
         
         #Act
         login_as(user, scope: :user)

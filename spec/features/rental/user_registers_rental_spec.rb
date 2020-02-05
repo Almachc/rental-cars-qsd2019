@@ -3,14 +3,15 @@ require 'rails_helper'
 feature 'User registers rental' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
-        manufacturer = Manufacturer.create!(name: 'Fabricante1')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
+        #Uma outra opção seria fazer somente: create(:car)
+        #Com a criação do carro, consequentemente também seria criado um car_model que, por sua vez, 
+        #seria então responsável pela criação de um car_category
+        car_category = create(:car_category)
+        car_model = create(:car_model, car_category: car_category)
+        create(:car, car_model: car_model)
+        create(:client)
 
         #Act
         login_as(user, scope: :user)
@@ -21,8 +22,8 @@ feature 'User registers rental' do
 
         fill_in 'Data de início', with: Date.current.strftime('%d/%m/%Y')
         fill_in 'Data de término', with: 1.day.from_now.strftime('%d/%m/%Y')
-        select 'Cliente1', from: 'Cliente'
-        select 'Categoria1', from: 'Categoria de carro'
+        select 'Leopoldo', from: 'Cliente'
+        select 'catA', from: 'Categoria de carro'
         click_on 'Enviar'
 
         #Assert
@@ -30,20 +31,21 @@ feature 'User registers rental' do
         #expect(Rental.last.code).to match(/[a-zA-Z0-9]+/)
         expect(page).to have_content(Date.current.strftime('%d/%m/%Y'))
         expect(page).to have_content(1.day.from_now.strftime('%d/%m/%Y'))
-        expect(page).to have_content('Cliente1')
-        expect(page).to have_content('Categoria1')
+        expect(page).to have_content('Leopoldo')
+        expect(page).to have_content('catA')
         expect(page).to have_content(user.email)
     end
 
     scenario '(dates must be valid)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
-        manufacturer = Manufacturer.create!(name: 'Fabricante1')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
+        car_category = create(:car_category, name: 'catA')
+        create(:car_category, name: 'catB')
+        car_model = create(:car_model, car_category: car_category)
+        create(:car, car_model: car_model)
+        create(:cliente, name: 'Leopoldo')
+        create(:client, name: 'Goku')
 
         #Act
         login_as(user, scope: :user)
@@ -54,8 +56,8 @@ feature 'User registers rental' do
 
         fill_in 'Data de início', with: 1.day.ago.strftime('%d/%m/%Y')
         fill_in 'Data de término', with: 2.days.ago.strftime('%d/%m/%Y')
-        select 'Cliente1', from: 'Cliente'
-        select 'Categoria1', from: 'Categoria de carro'
+        select 'Leopoldo', from: 'Cliente'
+        select 'catA', from: 'Categoria de carro'
         click_on 'Enviar'
 
         #Assert
@@ -64,22 +66,22 @@ feature 'User registers rental' do
        
         expect(page).to have_field('Data de início', with: 1.day.ago.strftime('%d/%m/%Y'))
         expect(page).to have_field('Data de término', with: 2.days.ago.strftime('%d/%m/%Y'))
-        expect(page).to have_select('Cliente', selected: 'Cliente1')
-        expect(page).to have_select('Categoria', selected: 'Categoria1')
+        expect(page).to have_select('Cliente', selected: 'Leopoldo')
+        expect(page).to have_content('Goku')
+        expect(page).to have_select('Categoria', selected: 'catA')
+        expect(page).to have_content('catB')
     end
 
     scenario '(cars must be available)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-
-        Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-
-        manufacturer = Manufacturer.create!(name: 'Fabricante1')
-        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+        car_category = create(:car_category)
+        
+        car_model = create(:car_model, car_category: car_category)
+        create(:car, car_model: car_model)
+        client = create(:client)
+        create(:rental, client: client, car_category: car_category, user: user)
 
         #Act
         login_as(user, scope: :user)
@@ -90,8 +92,8 @@ feature 'User registers rental' do
 
         fill_in 'Data de início', with: Date.current.strftime('%d/%m/%Y')
         fill_in 'Data de término', with: 1.day.from_now.strftime('%d/%m/%Y')
-        select 'Cliente1', from: 'Cliente'
-        select 'Categoria1', from: 'Categoria de carro'
+        select 'Leopoldo', from: 'Cliente'
+        select 'catA', from: 'Categoria de carro'
         click_on 'Enviar'
 
         #Assert

@@ -3,33 +3,33 @@ require 'rails_helper'
 feature 'Admin views car category details' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+        user = create(:user)
+        create(:car_category)
         
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
-        click_on 'T1'
+        click_on 'catA'
     
         #Assert
-        expect(page).to have_content('T1')
-        expect(page).to have_content('1.2')
-        expect(page).to have_content('1.3')
-        expect(page).to have_content('1.4')
+        expect(page).to have_content('catA')
+        expect(page).to have_content('200.55')
+        expect(page).to have_content('1000.55')
+        expect(page).to have_content('1500.55')
     end
 
     scenario 'and returns to car categories home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+        user = create(:user)
+        create(:car_category)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
-        click_on 'T1'
+        click_on 'catA'
 
         click_on 'Voltar'
 

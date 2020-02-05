@@ -3,37 +3,37 @@ require 'rails_helper'
 feature 'Admin edits manufacturer' do
   scenario 'successfully' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
-    fabricante = Manufacturer.create(name: 'Fiat')
+    user = create(:user)
+    fabricante = create(:manufacturer, name: 'Hyundsqe')
 
     #Act
     login_as(user, scope: :user)
     visit root_path
     click_on 'Fabricantes'
 
-    click_on 'Fiat'
+    click_on 'Hyundsqe'
 
     click_on 'Editar'
 
-    fill_in 'Nome', with: 'Honda'
+    fill_in 'Nome', with: 'Hyundai'
     click_on 'Enviar'
 
     #Assert
     expect(current_path).to eq manufacturer_path(fabricante)
     expect(page).to have_content('Fabricante editada com sucesso')
-    expect(page).to have_content('Honda')
+    expect(page).to have_content('Hyundai')
   end
 
   scenario '(all fields must be filled)' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
-    Manufacturer.create(name: 'Fiat')
+    user = create(:user)
+    create(:manufacturer)
 
     #Act
     login_as(user, scope: :user)
     visit root_path
     click_on 'Fabricantes'
-    click_on 'Fiat'
+    click_on 'Hyundai'
     click_on 'Editar'
 
     fill_in 'Nome', with: ''
@@ -47,15 +47,15 @@ feature 'Admin edits manufacturer' do
 
   scenario '(name must be unique)' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
-    Manufacturer.create(name: 'Fiat')
-    Manufacturer.create(name: 'Hyundai')
+    user = create(:user)
+    create(:manufacturer, name: 'Chevrolet')
+    create(:manufacturer, name: 'Hyundai')
 
     #Act
     login_as(user, scope: :user)
     visit root_path
     click_on 'Fabricantes'
-    click_on 'Fiat'
+    click_on 'Chevrolet'
     click_on 'Editar'
 
     fill_in 'Nome', with: 'Hyundai'

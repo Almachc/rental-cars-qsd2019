@@ -3,9 +3,9 @@ require 'rails_helper'
 feature 'Admin views all car categories' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        CarCategory.create!(name: 'T2', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+        user = create(:user)
+        create(:car_category, name: 'catA')
+        create(:car_category, name: 'catB')
 
         #Act
         login_as(user, scope: :user)
@@ -13,13 +13,13 @@ feature 'Admin views all car categories' do
         click_on 'Categorias de carro'
 
         #Assert
-        expect(page).to have_content('T1')
-        expect(page).to have_content('T2')
+        expect(page).to have_content('catA')
+        expect(page).to have_content('catB')
     end
 
     scenario 'and returns to home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)

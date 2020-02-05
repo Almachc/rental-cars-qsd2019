@@ -3,9 +3,10 @@ require 'rails_helper'
 feature 'Admin views all manufacturers' do
   scenario 'successfully' do
     # Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
-    Manufacturer.create!(name: 'Fiat')
-    Manufacturer.create!(name: 'Volkswagen')
+    user = create(:user)
+    create(:manufacturer, name: 'Hyundai')
+    create(:manufacturer, name: 'Chevrolet')
+    create(:manufacturer, name: 'Volkswagen')
 
     # Act
     login_as(user, scope: :user)
@@ -13,13 +14,14 @@ feature 'Admin views all manufacturers' do
     click_on 'Fabricantes'
 
     # Assert
-    expect(page).to have_content('Fiat')
+    expect(page).to have_content('Hyundai')
+    expect(page).to have_content('Chevrolet')
     expect(page).to have_content('Volkswagen')
   end
 
   scenario 'and returns to home page' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
+    user = create(:user)
 
     #Act
     login_as(user, scope: :user)

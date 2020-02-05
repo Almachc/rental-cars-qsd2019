@@ -3,31 +3,32 @@ require 'rails_helper'
 feature 'Admin views manufacturer details' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Manufacturer.create!(name: 'Fiat')
+        user = create(:user)
+        manufacturer = create(:manufacturer)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Fabricantes'
 
-        click_on 'Fiat'
+        click_on 'Hyundai'
 
         #Assert
-        expect(page).to have_content('Fiat')
+        expect(page).to have_content('Hyundai')
+        expect(current_path).to eq manufacturer_path(manufacturer)
     end
 
     scenario 'and returns to manufacturers home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Manufacturer.create!(name: 'Fiat')
+        user = create(:user)
+        manufacturer = create(:manufacturer)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Fabricantes'
 
-        click_on 'Fiat'
+        click_on 'Hyundai'
 
         click_on 'Voltar'
     

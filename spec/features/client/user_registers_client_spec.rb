@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'User registers client' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
        
         #Act
         login_as(user, scope: :user)
@@ -12,22 +12,22 @@ feature 'User registers client' do
 
         click_on 'Registrar novo cliente'
 
-        fill_in 'Nome', with: 'ClienteTeste1'
+        fill_in 'Nome', with: 'Cliente1'
         fill_in 'CPF', with: '42074026838'
-        fill_in 'Email', with: 'ale@gmail.com'
+        fill_in 'Email', with: 'cliente1@gmail.com'
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('ClienteTeste1')
+        expect(page).to have_content('Cliente1')
         expect(page).to have_content('42074026838')
-        expect(page).to have_content('ale@gmail.com')
+        expect(page).to have_content('cliente1@gmail.com')
 
         expect(page).to have_content('Cliente registrado com sucesso')
     end
 
     scenario '(all fields must be filled)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)
@@ -46,8 +46,8 @@ feature 'User registers client' do
 
     scenario '(CPF and Email must be unique)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Client.create!(name: 'ClienteTeste1', cpf: '42074026838', email: 'ale@gmail.com')
+        user = create(:user)
+        create(:client, name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
         
         #Act
         login_as(user, scope: :user)
@@ -56,9 +56,9 @@ feature 'User registers client' do
 
         click_on 'Registrar novo cliente'
 
-        fill_in 'Nome', with: 'ClienteTeste1'
+        fill_in 'Nome', with: 'Cliente2'
         fill_in 'CPF', with: '42074026838'
-        fill_in 'Email', with: 'ale@gmail.com'
+        fill_in 'Email', with: 'cliente1@gmail.com'
         click_on 'Enviar'
 
         #Assert
@@ -68,7 +68,7 @@ feature 'User registers client' do
 
     scenario '(CPF and Email must be valid)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)
@@ -77,7 +77,7 @@ feature 'User registers client' do
 
         click_on 'Registrar novo cliente'
 
-        fill_in 'Nome', with: 'ClienteTeste1'
+        fill_in 'Nome', with: 'Cliente1'
         fill_in 'CPF', with: '42074026'
         fill_in 'Email', with: 'ale@gmailcom'
         click_on 'Enviar'

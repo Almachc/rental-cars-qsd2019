@@ -3,15 +3,14 @@ require 'rails_helper'
 feature 'User starts rental' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        rental = Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        Rental.create!(code: 'cic3333', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        user = create(:user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
+        create(:rental, code: 'CIC3333', client: client, car_category: car_category, user: user)
 
-        manufacturer = Manufacturer.create(name: 'Fabricante1')
-        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+        car_model = create(:car_model, car_category: car_category)
+        car = create(:car, car_model: car_model)
 
         #Act
         login_as(user, scope: :user)
@@ -27,15 +26,15 @@ feature 'User starts rental' do
         
         click_on 'Efetivar locação'
 
-        select 'ABC1234', from: 'Carro'
+        select car.license_plate, from: 'Carro'
         click_on 'Efetivar'
       
         #Assert
-        expect(page).to have_content("Locação: cic3301")
-        expect(page).to have_content('Cliente: Cliente1 - 42074026838')
-        expect(page).to have_content('Carro: Fabricante1 / Modelo1 - ABC1234 - Branco')
-        expect(page).to have_content('Quilometragem: 200')
-        expect(page).to have_content('Preço: 3.9')
+        expect(page).to have_content("Locação: #{rental.code}")
+        expect(page).to have_content("Cliente: #{rental.client.name} - #{rental.client.cpf}")
+        expect(page).to have_content("Carro: #{car.full_description}")
+        expect(page).to have_content("Quilometragem: #{car.mileage}")
+        expect(page).to have_content("Preço: #{rental.car_category.total_price}")
         expect(car.reload.status).to eq 'unavailable'
     end
 
@@ -49,24 +48,23 @@ feature 'User starts rental' do
 
     scenario '(only available cars should be displayed)' do
         #Arrange
-        user = User.create!(email: 'usuario@gmail.com', password: '123456')
+        user = create(:user)
+        manufacturer = create(:manufacturer, 'Hyundai')
 
-        manufacturer = Manufacturer.create!(name: 'Fabricante1')
-
-        car_category1 = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        car_model1 = CarModel.create!(name: 'Modelo1', year: '2019', motorization: '1.0', fuel_type: 'Etanol',
-                                      car_category: car_category1, manufacturer: manufacturer)
+        car_category1 = create(name: 'catA')
+        car_model1 = create(:car_model, name: 'HB20', car_category: car_category1,
+                            manufacturer: manufacturer)
         
-        car_category2 = CarCategory.create!(name: 'Categoria2', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        car_model2 = CarModel.create!(name: 'Modelo2', year: '2019', motorization: '1.6', fuel_type: 'Gasolina',
-                                      car_category: car_category2, manufacturer: manufacturer)
+        car_category2 = create(:car_category, name: 'catB')
+        car_model2 = create(:car_model, name: 'Azera', car_category: car_category2,
+                            manufacturer: manufacturer)
         
-        Car.create(car_model: car_model1, color: 'Branco', license_plate: 'ABC1234', mileage: 100)
-        Car.create(car_model: car_model1, color: 'Branco', license_plate: 'SLA9999', mileage: 100)
-        Car.create(car_model: car_model2, color: 'Preto', license_plate: 'FDM2000', mileage: 100)
+        create(:car, car_model: car_model1, license_plate: 'ABC1234')
+        create(:car, car_model: car_model1, license_plate: 'SLA9999')
+        create(:car, car_model: car_model2, license_plate: 'FDM2000')
 
-        client = Client.create!(name: 'Cliente1', email: 'cliente1@gmail.com', cpf: '42074026838')
-        rental = Rental.create!(code: 'cic3333', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category1, user: user)
+        client = create(:client)
+        rental = create(:rental, code: 'CIC3333', client: client, car_category: car_category1, user: user)
         
         #Act
         login_as(user, scope: :user)
@@ -90,16 +88,10 @@ feature 'User starts rental' do
 
     scenario '(price and mileage must be obligatory)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-
-        manufacturer = Manufacturer.create(name: 'Fabricante1')
-        car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-        car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        rental = Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        car = create(:car)
+        rental = create(:rental)
 
         car_rental = CarRental.new(rental_id: rental.id, car_id: car.id, price: nil, start_mileage: nil, end_mileage: nil)
        

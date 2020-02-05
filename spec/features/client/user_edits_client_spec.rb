@@ -3,39 +3,39 @@ require 'rails_helper'
 feature 'User edits client' do
     scenario 'succesfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        cliente = Client.create!(name: 'ClienteTestk', cpf: '42074026838', email: 'teste1@gmail.com')
+        user = create(:user)
+        client = create(:client, name: 'Leopolafsd')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Clientes'
         
-        click_on 'ClienteTestk'
+        click_on 'Leopolafsd'
 
         click_on 'Editar'
 
-        fill_in 'Nome', with: 'ClienteTeste'
+        fill_in 'Nome', with: 'Leopoldo'
         click_on 'Enviar'
 
         #Assert
-        expect(page).not_to have_content('ClienteTestk')
-        expect(page).to have_content('ClienteTeste')
-        expect(current_path).to eq client_path(cliente)
+        expect(page).not_to have_content('Leopolafsd')
+        expect(page).to have_content('Leopoldo')
+        expect(current_path).to eq client_path(client)
         expect(page).to have_content('Cliente editado com sucesso')
     end
 
     scenario '(all fields must be filled)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Client.create!(name: 'ClienteTeste1', cpf: '42074026838', email: 'cliente1@gmail.com')
+        user = create(:user)
+        create(:client)
     
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Clientes'
 
-        click_on 'ClienteTeste1'
+        click_on 'Leopoldo'
 
         click_on 'Editar'
 
@@ -57,21 +57,21 @@ feature 'User edits client' do
 
     scenario '(CPF and Email must be unique)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Client.create!(name: 'ClienteTeste1', cpf: '42074026888', email: 'cliente1@gmail.com')
-        Client.create!(name: 'ClienteTeste2', cpf: '42074026999', email: 'cliente2@gmail.com')
+        user = create(:user)
+        create(:client, name: 'Leopoldo', cpf: '42074026838', email: 'leopoldo@gmail.com')
+        create(:client, name: 'Barney', cpf: '72074026856', email: 'barney@gmail.com')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Clientes'
 
-        click_on 'ClienteTeste1'
+        click_on 'Leopoldo'
 
         click_on 'Editar'
 
-        fill_in 'CPF', with: '42074026999'
-        fill_in 'Email', with: 'cliente2@gmail.com'
+        fill_in 'CPF', with: '72074026856'
+        fill_in 'Email', with: 'barney@gmail.com'
         click_on 'Enviar'
 
         #Assert
@@ -81,20 +81,20 @@ feature 'User edits client' do
 
     scenario '(CPF and Email must be valid)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Client.create!(name: 'ClienteTeste1', cpf: '42074026888', email: 'cliente1@gmail.com')
+        user = create(:user)
+        create(:client)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Clientes'
 
-        click_on 'ClienteTeste1'
+        click_on 'Leopoldo'
 
         click_on 'Editar'
 
         fill_in 'CPF', with: '42074026'
-        fill_in 'Email', with: 'ale@gmailcom'
+        fill_in 'Email', with: 'leopoldo@gmailcom'
         click_on 'Enviar'
 
         #Assert

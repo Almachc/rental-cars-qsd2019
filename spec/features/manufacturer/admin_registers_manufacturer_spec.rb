@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'Admin registers manufacturer' do
   scenario 'successfully' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
+    user = create(:user)
   
     #Act
     login_as(user, scope: :user)
@@ -12,17 +12,17 @@ feature 'Admin registers manufacturer' do
 
     click_on 'Registrar novo fabricante'
 
-    fill_in 'Nome', with: 'Fiat'
+    fill_in 'Nome', with: 'Hyundai'
     click_on 'Enviar'
 
     #Assert
-    expect(page).to have_content('Fiat')
+    expect(page).to have_content('Hyundai')
     expect(page).to have_content('Fabricante criada com sucesso')
   end
 
   scenario '(all fields must be filled)' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
+    user = create(:user)
 
     #Act
     login_as(user, scope: :user)
@@ -40,8 +40,8 @@ feature 'Admin registers manufacturer' do
 
   scenario '(name must be unique)' do
     #Arrange
-    user = User.create!(email: 'teste@teste.com', password: '123456')
-    Manufacturer.create!(name: 'Honda')
+    user = create(:user)
+    create(:manufacturer, name: 'Hyundai')
 
     #Act
     login_as(user, scope: :user)
@@ -50,11 +50,11 @@ feature 'Admin registers manufacturer' do
 
     click_on 'Registrar novo fabricante'
 
-    fill_in 'Nome', with: 'Honda'
+    fill_in 'Nome', with: 'Hyundai'
     click_on 'Enviar'
 
     #Assert
-    expect(page).to have_field('Nome', with: 'Honda')
+    expect(page).to have_field('Nome', with: 'Hyundai')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
     expect(page).to have_content('Nome deve ser único')
   end

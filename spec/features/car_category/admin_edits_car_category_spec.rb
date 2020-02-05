@@ -3,39 +3,40 @@ require 'rails_helper'
 feature 'Admin edits car category' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+        user = create(:user)
+        car_category = create(:car_category)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
-        click_on 'T1'
+        click_on 'catA'
         click_on 'Editar'
 
-        fill_in 'Nome', with: 'T2'
-        fill_in 'Seguro do carro', with: '2.5'
+        fill_in 'Nome', with: 'catB'
+        fill_in 'Seguro do carro', with: '700'
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('T2')
-        expect(page).to have_content('1.2')
-        expect(page).to have_content('2.5')
-        expect(page).to have_content('1.4')
+        expect(page).to have_content('catB')
+        expect(page).to have_content('200.55')
+        expect(page).to have_content('700')
+        expect(page).to have_content('1500.55')
 
         expect(page).to have_content('Categoria editada com sucesso')
+        expect(current_path).to eq car_category_path(car_category)
     end
 
     scenario '(all fields must be filled)' do
        #Arrange
-       user = User.create!(email: 'teste@teste.com', password: '123456')
-       CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+       user = create(:user)
+       create(:car_category)
 
        #Act
        login_as(user, scope: :user)
        visit root_path
        click_on 'Categorias de carro'
-       click_on 'T1'
+       click_on 'catA'
        click_on 'Editar'
 
        fill_in 'Nome', with: ''
@@ -53,15 +54,15 @@ feature 'Admin edits car category' do
 
     scenario '(daily rate, car insurance and third party insurance must be greater than zero)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        CarCategory.create!(name: 'T1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
+        user = create(:user)
+        create(:car_category)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Categorias de carro'
 
-        click_on 'T1'
+        click_on 'catA'
 
         click_on 'Editar'
 
@@ -71,7 +72,7 @@ feature 'Admin edits car category' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_field('Nome', with: 'T1')
+        expect(page).to have_field('Nome', with: 'catA')
         expect(page).to have_field('Diária', with: '0')
         expect(page).to have_field('Seguro do carro', with: '0')
         expect(page).to have_field('Seguro contra terceiros', with: '0')

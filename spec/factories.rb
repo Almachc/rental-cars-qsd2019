@@ -5,8 +5,9 @@ FactoryBot.define do
 	end
 
 	factory :client do
-		first_name { "Leopoldo" }
-		last_name  { "Silva" }
+		name { "Leopoldo" }
+		cpf { "42074026838" }
+		email { "leopoldo@gmail.com" }
 	end
 
 	factory :subsidiary do
@@ -20,10 +21,10 @@ FactoryBot.define do
 	end
 
 	factory :car_category do
-		name { "CatA" }
-		daily_rate { 200.50 }
-		car_insurance { 1000.50 }
-		third_party_insurance { 1500.50 }
+		name { "catA" }
+		daily_rate { 200.55 }
+		car_insurance { 1000.55 }
+		third_party_insurance { 1500.55 }
 	end
 
 	factory :car_model do
@@ -49,7 +50,7 @@ FactoryBot.define do
 		end_date { 5.days.from_now }
 		status { 0 }
 		description { "" }
-	  client
+	  	client
 		car_category
 		user
 	end

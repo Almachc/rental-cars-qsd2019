@@ -3,11 +3,11 @@ require 'rails_helper'
 feature 'User view rental details'
     scenario 'successfully ' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        rental = Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
-        
+        user = create(:user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
+
         #Act
         login_as(user, scope: :user)
         visit root_path
@@ -31,10 +31,10 @@ feature 'User view rental details'
 
     scenario 'and back to the search page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        client = Client.create!(name: 'Cliente1', cpf: '42074026838', email: 'cliente1@gmail.com')
-        car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
-        rental = Rental.create!(code: 'cic3301', start_date: Date.current, end_date: 1.day.from_now, client: client, car_category: car_category, user: user)
+        user = create(:user)
+        client = create(:client)
+        car_category = create(:car_category)
+        rental = create(:rental, code: 'CIC3301', client: client, car_category: car_category, user: user)
         
         #Act
         login_as(user, scope: :user)

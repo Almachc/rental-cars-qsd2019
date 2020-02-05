@@ -3,27 +3,27 @@ require 'rails_helper'
 feature 'User delete client' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Client.create!(name: 'ClienteTeste1', cpf: '42074026838', email: 'teste1@gmail.com')
-        Client.create!(name: 'ClienteTeste2', cpf: '42074026839', email: 'teste2@gmail.com')
+        user = create(:user)
+        create(:client, name: 'Leopoldo', cpf: '42074026838', email: 'leopoldo@gmail.com')
+        create(:client, name: 'Barney', cpf: '72074026856', email: 'barney@gmail.com')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Clientes'
 
-        click_on 'ClienteTeste1'
+        click_on 'Leopoldo'
         click_on 'Deletar'
 
         #Assert
         expect(page).to have_content('Cliente deletado com sucesso')
-        expect(page).to have_content('ClienteTeste2')
-        expect(page).not_to have_content('ClienteTeste1')
+        expect(page).to have_content('Barney')
+        expect(page).not_to have_content('Leopoldo')
     end
 
     scenario '(must be authenticated)' do
         #Arrange
-        cliente = Client.create!(name: 'ClienteTeste1', cpf: '42074026838', email: 'teste1@gmail.com')
+        cliente = create(:client)
 
         #Act
         page.driver.submit :delete, subsidiary_path(3301), {}
