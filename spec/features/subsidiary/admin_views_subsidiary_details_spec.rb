@@ -3,31 +3,31 @@ require 'rails_helper'
 feature 'Admin views subsidiary details' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj:'01234567891011', address: 'Rua Teste1')
+        user = create(:user)
+        filial = create(:subsidiary)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
-        click_on 'FilialTeste1'
+        click_on 'Filial1'
 
         #Assert
-        expect(page).to have_content('FilialTeste1')
-        expect(page).to have_content('01234567891011')
-        expect(page).to have_content('Rua Teste1')
+        expect(page).to have_content(filial.name)
+        expect(page).to have_content(filial.cnpj)
+        expect(page).to have_content(filial.address)
     end
 
     scenario 'and returns to the subsidiarys home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj:'01234567891011', address: 'Rua Teste1')
+        user = create(:user)
+        filial = create(:subsidiary)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
-        click_on 'FilialTeste1'
+        click_on 'Filial1'
         click_on 'Voltar'
 
         #Assert

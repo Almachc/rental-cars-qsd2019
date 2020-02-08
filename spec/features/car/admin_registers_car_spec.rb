@@ -3,8 +3,8 @@ require 'rails_helper'
 feature 'Admin registers car' do
     scenario 'successfully' do
         #Arrange
-        user = User.create(email: 'teste@teste.com', password: '123456')
-        create(:car_model)
+        user = create(:user)
+        car_model = create(:car_model)
 
         #Act
         login_as(user, scope: :user)
@@ -21,8 +21,14 @@ feature 'Admin registers car' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('Carro registrado com sucesso')
+        expect(Car.count).to eq 1
+        car = Car.first
+        expect(car).to have_attributes(license_plate: 'ABC1234', car_model: car_model, 
+                                       color: 'Branco', mileage: 200, status: 'available')
 
+        expect(current_path).to eq car_path(car)
+        
+        expect(page).to have_content('Carro registrado com sucesso')
         expect(page).to have_content('ABC1234')
         expect(page).to have_content('Branco')
         expect(page).to have_content('HB20')

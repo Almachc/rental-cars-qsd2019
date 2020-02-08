@@ -3,39 +3,43 @@ require 'rails_helper'
 feature 'Admin edits subsidiary' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        filial = Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Test')
+        user = create(:user)
+        subsidiary = create(:subsidiary)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
-        click_on 'FilialTeste1'
+        click_on 'Filial1'
 
         click_on 'Editar'
 
-        fill_in 'Endereço', with: 'Rua Teste1'
+        fill_in 'Endereço', with: 'Rua Seila Oq'
         click_on 'Enviar'
 
         #Assert
-        expect(current_path).to eq subsidiary_path(filial)
+        expect(Subsidiary.first).to have_attributes(name: subsidiary.name, cnpj: subsidiary.cnpj,
+                                                    address: 'Rua Seila Oq')
+
+        expect(current_path).to eq subsidiary_path(subsidiary)
+
         expect(page).to have_content('Filial editada com sucesso')
-        expect(page).to have_content('Rua Teste1')
+        expect(page).to have_content('Rua Seila Oq')
     end
 
     scenario '(cnpj must be unique)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste1')
-        Subsidiary.create!(name: 'FilialTeste2', cnpj: '01234567891012', address: 'Rua Teste2')
+        user = create(:user)
+        create(:subsidiary, name: 'Filial1', cnpj: '01234567891011')
+        subsidiary = create(:subsidiary, name: 'Filial2', cnpj: '01234567891012')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
-        click_on 'FilialTeste2'
+        click_on 'Filial2'
 
         click_on 'Editar'
 
@@ -43,23 +47,26 @@ feature 'Admin edits subsidiary' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_field('Nome', with: 'FilialTeste2')
-        expect(page).to have_field('CNPJ', with: '01234567891011')
-        expect(page).to have_field('Endereço', with: 'Rua Teste2')
+        expect(Subsidiary.find(subsidiary.id)).to have_attributes(name: subsidiary.name, cnpj: subsidiary.cnpj,
+                                                    address: subsidiary.address)
+
         expect(page).to have_content('Filial deve ser única')
+        expect(page).to have_field('Nome', with: subsidiary.name)
+        expect(page).to have_field('CNPJ', with: '01234567891011')
+        expect(page).to have_field('Endereço', with: subsidiary.address)
     end
 
     scenario '(cnpj must be valid)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste1')
+        user = create(:user)
+        subsidiary = create(:subsidiary)
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
-        click_on 'FilialTeste1'
+        click_on 'Filial1'
 
         click_on 'Editar'
 
@@ -67,12 +74,15 @@ feature 'Admin edits subsidiary' do
         click_on 'Enviar'
 
         #Assert
+        expect(Subsidiary.first).to have_attributes(name: subsidiary.name, cnpj: subsidiary.cnpj,
+                                                    address: subsidiary.address)
+
         expect(page).to have_content('CNPJ deve ser válido')
     end
 
     scenario '(must be authenticated to have access to the edit form)' do
         #Act
-        visit edit_subsidiary_path(3301)
+        visit edit_subsidiary_path('whatever')
 
         #Assert
         expect(current_path).to eq new_user_session_path
@@ -80,7 +90,7 @@ feature 'Admin edits subsidiary' do
 
     scenario '(must be authenticated to edit it)' do
         #Act
-        page.driver.submit :patch, subsidiary_path(3301), {}
+        page.driver.submit :patch, subsidiary_path('whatever'), {}
 
         #Assert
         expect(current_path).to eq new_user_session_path

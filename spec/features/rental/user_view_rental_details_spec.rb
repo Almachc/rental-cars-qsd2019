@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'User view rental details'
+feature 'User view rental details' do
     scenario 'successfully ' do
         #Arrange
         user = create(:user)
@@ -22,11 +22,11 @@ feature 'User view rental details'
 
         #Assert
         expect(page).to have_content(rental.code)
-        expect(page).to have_content(rental.start_date)
-        expect(page).to have_content(rental.end_date)
-        expect(page).to have_content(rental.client)
-        expect(page).to have_content(rental.car_category)
-        expect(page).to have_content(rental.user)
+        expect(page).to have_content(rental.start_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.end_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.client.name)
+        expect(page).to have_content(rental.car_category.name)
+        expect(page).to have_content(rental.user.email)
     end
 
     scenario 'and back to the search page' do

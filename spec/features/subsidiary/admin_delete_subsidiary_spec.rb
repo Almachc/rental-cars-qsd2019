@@ -3,22 +3,26 @@ require 'rails_helper'
 feature 'Admin delete subsidiary' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj: '01234567891011', address: 'Rua Teste')
-        Subsidiary.create!(name: 'FilialTeste2', cnpj: '01234567891012', address: 'Rua Teste2')
+        user = create(:user)
+        create(:subsidiary, name: 'Filial1', cnpj: '01234567891011')
+        create(:subsidiary, name: 'Filial2', cnpj: '55234567891022')
 
         #Act
         login_as(user, scope: :user)
         visit root_path
         click_on 'Filiais'
 
-        click_on 'FilialTeste1'
+        click_on 'Filial1'
         click_on 'Deletar'
 
         #Assert
+        expect(Subsidiary.count).to eq 1
+
+        expect(current_path).to eq subsidiaries_path
+
         expect(page).to have_content('Filial deletada com sucesso')
-        expect(page).to have_content('FilialTeste2')
-        expect(page).to have_no_content('FilialTeste1')
+        expect(page).to have_content('Filial2')
+        expect(page).to have_no_content('Filial1')
     end
 
     scenario '(must be authenticated)' do

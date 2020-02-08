@@ -1,9 +1,3 @@
-<% if @rental.errors.any? %>
-    <% @rental.errors.messages.each do |message| %>
-        <p><%= message %></p>
-    <% end  %>
-<% end %>
-
 <%= @rental.code %>
 <%= @rental.start_date.strftime('%d/%m/%Y') %>
 <%= @rental.end_date.strftime('%d/%m/%Y') %>
@@ -22,6 +16,6 @@
     <% end %>
 </div>
 
-<%= link_to 'Voltar', search_rentals_path %>
+<%= link_to 'Voltar', search_rentals_path({q: @rental.code}) %>
 
 

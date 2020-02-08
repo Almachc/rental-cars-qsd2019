@@ -4,7 +4,7 @@ feature 'Admin delete car category' do
     scenario 'successfully' do
         #Arrange
         user = create(:user)
-        create(:car_category)
+        car_category = create(:car_category)
 
         #Act
         login_as(user, scope: :user)
@@ -14,14 +14,17 @@ feature 'Admin delete car category' do
         click_on 'Deletar'
 
         #Assert
+        expect(CarCategory.count).to eq 0
+
         expect(current_path).to eq car_categories_path
+        
         expect(page).to have_content('Categoria deletada com sucesso')
-        expect(page).to have_no_content('catA')
+        expect(page).to have_no_content(car_category.name)
     end
 
     scenario '(must be authenticated)' do
         #Act
-        page.driver.submit :delete, car_category_path(3301), {}
+        page.driver.submit :delete, car_category_path('whatever'), {}
 
         #Assert
         expect(current_path).to eq new_user_session_path

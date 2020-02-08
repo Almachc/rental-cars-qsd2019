@@ -4,7 +4,7 @@ feature 'Admin edits car model' do
     scenario 'successfully' do
         #Arrange
         user = create(:user)
-        create(:car_model)
+        car_model = create(:car_model, year: '2019')
         
         #Act
         login_as(user, scope: :user)
@@ -14,18 +14,25 @@ feature 'Admin edits car model' do
         click_on 'Editar'
         
         fill_in 'Ano', with: '2015'
-
         click_on 'Enviar'
 
         #Assert
+        expect(car_model.reload.year).to eq '2015'
+
+        expect(current_path).to eq car_model_path(car_model)
+
         expect(page).to have_content('Modelo editado com sucesso')
-        expect(page).not_to have_content('2019')
+        expect(page).to have_content(car_model.name)
         expect(page).to have_content('2015')
+        expect(page).to have_content(car_model.motorization)
+        expect(page).to have_content(car_model.fuel_type)
+        expect(page).to have_content(car_model.manufacturer.name)
+        expect(page).to have_content(car_model.car_category.name)
     end
 
     scenario '(all fields must be filled)' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
         create(:car_model)
 
         #Act
@@ -43,6 +50,9 @@ feature 'Admin edits car model' do
         click_on 'Enviar'
 
         #Assert
+        expect(CarModel.first).to_not have_attributes(name: '', year: '', motorization: '',
+                                                         fuel_type: '')
+
         expect(page).to have_field('Nome', with: '')
         expect(page).to have_field('Ano', with: '')
         expect(page).to have_field('Fabricante', with: '1')

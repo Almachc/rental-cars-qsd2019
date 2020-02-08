@@ -14,12 +14,12 @@ feature 'Admin view car models details' do
         click_on 'HB20'
 
         #Assert
-        expect(page).to have_content('HB20')
-        expect(page).to have_content('2019')
+        expect(page).to have_content(car_model.name)
+        expect(page).to have_content(car_model.year)
+        expect(page).to have_content(car_model.motorization)
+        expect(page).to have_content(car_model.fuel_type)
         expect(page).to have_content(car_model.manufacturer.name)
-        expect(page).to have_content('1.6')
         expect(page).to have_content(car_model.car_category.name)
-        expect(page).to have_content('Gasolina')
     end
 
     scenario 'and returns to car models home page' do

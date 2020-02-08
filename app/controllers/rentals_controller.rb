@@ -57,8 +57,9 @@ class RentalsController < ApplicationController
         @rental = Rental.find(params[:id])
         if @rental.cancel(description: params[:description])
             redirect_to rentals_path, notice: 'Locação cancelada com sucesso'
-        else
-            render :show
+        elsif
+            flash[:alert] = @rental.errors.messages[:cancel]
+            redirect_to rental_path(@rental)
         end
     end
 

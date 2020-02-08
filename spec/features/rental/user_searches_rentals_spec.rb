@@ -19,15 +19,16 @@ feature 'User searches rentals' do
         click_on 'Buscar'
 
         #Assert
-        expect(page).to_not have_content('CIC2020')
-        expect(page).to_not have_content('JUL1947')
+        expect(current_path).to eq search_rentals_path
 
         expect(page).to have_content("Foram encontrado(s) 1 resultado(s)")
         expect(page).to have_content(rental.code)
-        expect(page).to have_content(rental.start_date)
-        expect(page).to have_content(rental.end_date)
+        expect(page).to have_content(rental.start_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.end_date.strftime('%d/%m/%Y'))
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
+        expect(page).to_not have_content('CIC2020')
+        expect(page).to_not have_content('JUL1947')
     end
 
     scenario 'by partial code' do
@@ -48,15 +49,16 @@ feature 'User searches rentals' do
         click_on 'Buscar'
 
         #Assert
-        expect(page).to_not have_content('JUL1947')
+        expect(current_path).to eq search_rentals_path
 
         expect(page).to have_content("Foram encontrado(s) 2 resultado(s)")
         expect(page).to have_content('CIC3301')
         expect(page).to have_content('CIC2020')
-        expect(page).to have_content(rental.start_date)
-        expect(page).to have_content(rental.end_date)
+        expect(page).to have_content(rental.start_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.end_date.strftime('%d/%m/%Y'))
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
+        expect(page).to_not have_content('JUL1947')
     end
 
     scenario 'by no code (must bring everyone)' do
@@ -77,12 +79,14 @@ feature 'User searches rentals' do
         click_on 'Buscar'
 
         #Assert
+        expect(current_path).to eq search_rentals_path
+
         expect(page).to have_content("Foram encontrado(s) 3 resultado(s)")
         expect(page).to have_content('CIC3301')
         expect(page).to have_content('CIC2020')
         expect(page).to have_content('JUL1947')
-        expect(page).to have_content(rental.start_date)
-        expect(page).to have_content(rental.end_date)
+        expect(page).to have_content(rental.start_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(rental.end_date.strftime('%d/%m/%Y'))
         expect(page).to have_content(client.name)
         expect(page).to have_content(car_category.name)
     end
@@ -99,15 +103,15 @@ feature 'User searches rentals' do
         click_on 'Buscar'
 
         #Assert
+        expect(current_path).to eq rentals_path
+
         expect(page).to have_content('Nenhum resultado encontrado para o seguinte código: cic')
-        expect(current_path).to eq(rentals_path)
     end
 
     scenario 'and back to the rentals home page' do
         #Arrange
         user = create(:user)
-
-        create(:rental)
+        create(:rental, user: user)
 
         #Act
         login_as(user, scope: :user)
@@ -120,6 +124,6 @@ feature 'User searches rentals' do
         click_on 'Voltar'
 
         #Assert
-        expect(current_path).to eq(rentals_path)
+        expect(current_path).to eq rentals_path
     end
 end

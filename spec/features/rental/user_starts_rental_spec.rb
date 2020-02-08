@@ -40,7 +40,7 @@ feature 'User starts rental' do
 
     scenario '(must be authenticated to access the form with valid cars)' do
         #Act
-        visit start_rental_path(000)
+        visit start_rental_path('whatever')
 
         #Assert
         expect(current_path).to eq new_user_session_path
@@ -49,9 +49,9 @@ feature 'User starts rental' do
     scenario '(only available cars should be displayed)' do
         #Arrange
         user = create(:user)
-        manufacturer = create(:manufacturer, 'Hyundai')
+        manufacturer = create(:manufacturer)
 
-        car_category1 = create(name: 'catA')
+        car_category1 = create(:car_category, name: 'catA')
         car_model1 = create(:car_model, name: 'HB20', car_category: car_category1,
                             manufacturer: manufacturer)
         
@@ -89,12 +89,11 @@ feature 'User starts rental' do
     scenario '(price and mileage must be obligatory)' do
         #Arrange
         user = create(:user)
-
         car = create(:car)
-        rental = create(:rental)
-
+        rental = create(:rental, user: user)
         car_rental = CarRental.new(rental_id: rental.id, car_id: car.id, price: nil, start_mileage: nil, end_mileage: nil)
        
+        #Act
         car_rental.valid?
 
         #Assert

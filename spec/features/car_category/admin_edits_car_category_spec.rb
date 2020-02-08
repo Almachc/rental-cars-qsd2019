@@ -18,13 +18,15 @@ feature 'Admin edits car category' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('catB')
-        expect(page).to have_content('200.55')
-        expect(page).to have_content('700')
-        expect(page).to have_content('1500.55')
+        expect(car_category.reload).to have_attributes(name: 'catB', car_insurance: 700)
 
-        expect(page).to have_content('Categoria editada com sucesso')
         expect(current_path).to eq car_category_path(car_category)
+        
+        expect(page).to have_content('Categoria editada com sucesso')
+        expect(page).to have_content('catB')
+        expect(page).to have_content(car_category.daily_rate)
+        expect(page).to have_content('700')
+        expect(page).to have_content(car_category.third_party_insurance)
     end
 
     scenario '(all fields must be filled)' do
@@ -46,6 +48,10 @@ feature 'Admin edits car category' do
        click_on 'Enviar'
 
         #Assert
+        expect(CarCategory.first).to_not have_attributes(name: '', daily_rate: '',
+                                                         car_insurance: '',
+                                                         third_party_insurance: '')
+
         expect(page).to have_content('Nome deve ser preenchido')
         expect(page).to have_content('Diária deve ser preenchido')
         expect(page).to have_content('Seguro do carro deve ser preenchido')
@@ -72,6 +78,10 @@ feature 'Admin edits car category' do
         click_on 'Enviar'
 
         #Assert
+        expect(CarCategory.first).to_not have_attributes(daily_rate: 0,
+                                                         car_insurance: 0,
+                                                         third_party_insurance: 0)
+
         expect(page).to have_field('Nome', with: 'catA')
         expect(page).to have_field('Diária', with: '0')
         expect(page).to have_field('Seguro do carro', with: '0')

@@ -18,11 +18,17 @@ feature 'User registers client' do
         click_on 'Enviar'
 
         #Assert
+        expect(Client.count).to eq 1
+        client = Client.first
+        expect(client).to have_attributes(name: 'Cliente1', cpf: '42074026838',
+                                           email: 'cliente1@gmail.com')
+
+        expect(current_path).to eq client_path(client)
+
+        expect(page).to have_content('Cliente registrado com sucesso')
         expect(page).to have_content('Cliente1')
         expect(page).to have_content('42074026838')
         expect(page).to have_content('cliente1@gmail.com')
-
-        expect(page).to have_content('Cliente registrado com sucesso')
     end
 
     scenario '(all fields must be filled)' do
@@ -39,6 +45,8 @@ feature 'User registers client' do
         click_on 'Enviar'
 
         #Assert
+        expect(Client.count).to eq 0
+
         expect(page).to have_content('Nome deve ser preenchido')
         expect(page).to have_content('CPF deve ser preenchido')
         expect(page).to have_content('Email deve ser preenchido')
@@ -62,6 +70,8 @@ feature 'User registers client' do
         click_on 'Enviar'
 
         #Assert
+        expect(Client.count).to eq 1
+
         expect(page).to have_content('CPF deve ser único')
         expect(page).to have_content('Email deve ser único')
     end
@@ -83,6 +93,8 @@ feature 'User registers client' do
         click_on 'Enviar'
 
         #Assert
+        expect(Client.count).to eq 0
+
         expect(page).to have_content('CPF deve ser válido')
         expect(page).to have_content('Email deve ser válido')
     end

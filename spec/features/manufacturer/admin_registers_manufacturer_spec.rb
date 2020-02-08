@@ -16,6 +16,12 @@ feature 'Admin registers manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(Manufacturer.count).to eq 1
+    manufacturer = Manufacturer.first
+    expect(manufacturer.name).to eq 'Hyundai'
+
+    expect(current_path).to eq manufacturer_path(manufacturer)
+
     expect(page).to have_content('Hyundai')
     expect(page).to have_content('Fabricante criada com sucesso')
   end
@@ -34,6 +40,8 @@ feature 'Admin registers manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(Manufacturer.count).to eq 0
+
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
     expect(page).to have_content('Nome deve ser preenchido')
   end
@@ -54,6 +62,8 @@ feature 'Admin registers manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(Manufacturer.count).to eq 1
+
     expect(page).to have_field('Nome', with: 'Hyundai')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
     expect(page).to have_content('Nome deve ser único')

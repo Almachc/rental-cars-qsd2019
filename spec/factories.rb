@@ -12,7 +12,7 @@ FactoryBot.define do
 
 	factory :subsidiary do
 		name { "Filial1" }
-		cnpj { "10.394.422/0001-42" }
+		cnpj { "10394422000142" }
 		address { "Av Sei La, 203" }
 	end
 
@@ -41,7 +41,7 @@ FactoryBot.define do
 		color { "Chumbo" }
 		mileage { 7000 }
 		status { 0 }
-	  car_model 
+	  	car_model 
 	end
 
 	factory :rental do

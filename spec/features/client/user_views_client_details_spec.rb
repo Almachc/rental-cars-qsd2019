@@ -4,7 +4,7 @@ feature 'User views client details' do
     scenario 'successfully' do
         #Arrange
         user = create(:user)
-        create(:client)
+        client = create(:client)
 
         #Act
         login_as(user, scope: :user)
@@ -14,10 +14,11 @@ feature 'User views client details' do
         click_on 'Leopoldo'
 
         #Assert
-        expect(page).to have_content('Leopoldo')
-        expect(page).to have_content('42074026838')
-        expect(page).to have_content('leopoldo@gmail.com')
-        expect(page).to have_link('Voltar')
+        expect(current_path).to eq client_path(client)
+
+        expect(page).to have_content(client.name)
+        expect(page).to have_content(client.cpf)
+        expect(page).to have_content(client.email)
     end
 
     scenario 'and back clients home page' do

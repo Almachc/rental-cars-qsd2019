@@ -19,7 +19,10 @@ feature 'Admin edits manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(fabricante.reload.name).to eq 'Hyundai'
+
     expect(current_path).to eq manufacturer_path(fabricante)
+
     expect(page).to have_content('Fabricante editada com sucesso')
     expect(page).to have_content('Hyundai')
   end
@@ -40,6 +43,8 @@ feature 'Admin edits manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(Manufacturer.first.name.empty?).to eq false
+
     expect(page).to have_field('Nome', with: '')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
     expect(page).to have_content('Nome deve ser preenchido')
@@ -48,7 +53,7 @@ feature 'Admin edits manufacturer' do
   scenario '(name must be unique)' do
     #Arrange
     user = create(:user)
-    create(:manufacturer, name: 'Chevrolet')
+    manufacturer = create(:manufacturer, name: 'Chevrolet')
     create(:manufacturer, name: 'Hyundai')
 
     #Act
@@ -62,6 +67,8 @@ feature 'Admin edits manufacturer' do
     click_on 'Enviar'
 
     #Assert
+    expect(manufacturer.reload.name).to eq 'Chevrolet'
+
     expect(page).to have_field('Nome', with: 'Hyundai')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
     expect(page).to have_content('Nome deve ser único')

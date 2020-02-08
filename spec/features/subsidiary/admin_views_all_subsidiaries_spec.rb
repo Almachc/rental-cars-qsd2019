@@ -3,9 +3,9 @@ require 'rails_helper'
 feature 'Admin views all subsidiaries' do
     scenario 'successfully' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
-        Subsidiary.create!(name: 'FilialTeste1', cnpj:'01234567891011', address: 'Rua Teste1')
-        Subsidiary.create!(name: 'FilialTeste2', cnpj:'01234567891012', address: 'Rua Teste2')
+        user = create(:user)
+        create(:subsidiary, name: 'Filial1', cnpj: '01234567891011')
+        create(:subsidiary, name: 'Filial2', cnpj: '01234567891012')
 
         #Act
         login_as(user, scope: :user)
@@ -13,15 +13,15 @@ feature 'Admin views all subsidiaries' do
         click_on 'Filiais'
         
         #Assert
-        expect(page).to have_content('FilialTeste1')
-        expect(page).to have_content('FilialTeste2')
+        expect(page).to have_content('Filial1')
+        expect(page).to have_content('Filial2')
       
         expect(page).to have_link('Voltar')
     end
 
     scenario 'and returns to home page' do
         #Arrange
-        user = User.create!(email: 'teste@teste.com', password: '123456')
+        user = create(:user)
 
         #Act
         login_as(user, scope: :user)

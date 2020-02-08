@@ -4,7 +4,7 @@ feature 'Admin views car category details' do
     scenario 'successfully' do
         #Arrange
         user = create(:user)
-        create(:car_category)
+        car_category = create(:car_category)
         
         #Act
         login_as(user, scope: :user)
@@ -13,10 +13,10 @@ feature 'Admin views car category details' do
         click_on 'catA'
     
         #Assert
-        expect(page).to have_content('catA')
-        expect(page).to have_content('200.55')
-        expect(page).to have_content('1000.55')
-        expect(page).to have_content('1500.55')
+        expect(page).to have_content(car_category.name)
+        expect(page).to have_content(car_category.daily_rate)
+        expect(page).to have_content(car_category.car_insurance)
+        expect(page).to have_content(car_category.third_party_insurance)
     end
 
     scenario 'and returns to car categories home page' do
