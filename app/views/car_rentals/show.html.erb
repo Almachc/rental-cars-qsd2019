@@ -1,5 +1,9 @@
 <p>Locação: <%= @car_rental.rental.code %></p>
-<p>Cliente: <%= @car_rental.rental.client.name %> - <%= @car_rental.rental.client.cpf %></p>
+<p>Cliente: <%= @car_rental.rental.client.cpf %></p>
 <p>Carro: <%= @car_rental.car.full_description %></p>
-<p>Quilometragem: <%= @car_rental.start_mileage %></p>
+<p>Quilometragem inicial: <%= @car_rental.start_mileage %></p>
+<p>Quilometragem final: <%= @car_rental.end_mileage %></p>
 <p>Preço: <%= @car_rental.price %></p>
+<p>Criado em: <%= @car_rental.created_at %></p>
+
+<%= link_to 'Voltar', car_rentals_path %>

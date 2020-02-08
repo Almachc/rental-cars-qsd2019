@@ -1,4 +1,10 @@
 class CarRentalsController < ApplicationController
+    before_action :authenticate_user!
+    
+    def index
+        @car_rentals = CarRental.all
+    end
+
     def show
         @car_rental = CarRental.find(params[:id])
     end
@@ -11,7 +17,7 @@ class CarRentalsController < ApplicationController
                                               start_mileage: car.mileage)
         if car_rental.save!
             flash[:notice] = 'Locação efetivada com sucesso'
-            car.update(status: "unavailable")
+            #car.update(status: "unavailable")
             redirect_to car_rental
         else  
             #render

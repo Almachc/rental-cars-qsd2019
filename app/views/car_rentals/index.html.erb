@@ -1,0 +1,13 @@
+<table>
+  <% @car_rentals.each do |car_rental| %>
+    <tr id='car_rental-<%= car_rental.id %>'>
+      <td><%= car_rental.rental.client.cpf %></td>
+      <td><%= car_rental.rental.code %></td>
+      <td><%= car_rental.car.license_plate %></td>
+      <td><%= car_rental.created_at %></td>
+      <td><%= link_to 'Visualizar', car_rental_path(car_rental) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'Voltar', root_path %>

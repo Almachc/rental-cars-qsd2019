@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     resources :car_rentals, only: [:create]
   end
   resources :cars, only: [:index, :show, :new, :create]
-  resources :car_rentals, only: [:show]
+  resources :car_rentals, only: [:index, :show]
   namespace :api do
     namespace :v1 do
       resources :cars, only: [:index, :show, :create, :update, :destroy] do
