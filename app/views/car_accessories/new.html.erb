@@ -1,0 +1,20 @@
+<h1>Cadastrar acessório</h1>
+
+<% if @car_accessory.errors.any? %>
+    <p>Você deve corrigir os seguintes erros para continuar:</p>
+
+    <% @car_accessory.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+    <% end %>
+<% end %>
+
+<%= form_with model: @car_accessory, local: true do |form| %>
+    <%= form.label :name, 'Nome' %>
+    <%= form.text_field :name %>
+    <%= form.label :description, 'Descrição' %>
+    <%= form.text_area :description %>
+    <%= form.label :daily_rate, 'Diária' %>
+    <%= form.text_field :daily_rate %>
+    <%= form.file_field :photo %>
+    <%= form.submit 'Enviar' %>
+<% end %>

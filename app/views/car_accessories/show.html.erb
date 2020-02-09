@@ -1,0 +1,8 @@
+<%= flash[:notice] %>
+
+<%= image_tag @car_accessory.photo, height: 100, width: 100 %>
+<%= @car_accessory.name %>
+<%= @car_accessory.description %>
+<%= @car_accessory.daily_rate %>
+
+<%= link_to 'Voltar', car_accessories_path %>

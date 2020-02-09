@@ -33,9 +33,8 @@ feature 'User starts rental' do
         expect(page).to have_content("Locação: #{rental.code}")
         expect(page).to have_content("Cliente: #{rental.client.name} - #{rental.client.cpf}")
         expect(page).to have_content("Carro: #{car.full_description}")
-        expect(page).to have_content("Quilometragem: #{car.mileage}")
+        expect(page).to have_content("Quilometragem inicial: #{car.mileage}")
         expect(page).to have_content("Preço: #{rental.car_category.total_price}")
-        expect(car.reload.status).to eq 'unavailable'
     end
 
     scenario '(must be authenticated to access the form with valid cars)' do
