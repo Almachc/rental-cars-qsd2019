@@ -1,0 +1,6 @@
+pt-BR:
+  http_statuses:
+    messages:
+      not_found: 'Nenhum resultado encontrado'
+      internal_server_error: 'Desculpe-nos o transtorno, houve um erro em nosso servidor'
+      unprocessable_entity: 'Ops, aparentemente você está fazendo algo de errado'

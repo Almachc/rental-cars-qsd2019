@@ -47,7 +47,7 @@ feature 'Admin edits manufacturer' do
 
     expect(page).to have_field('Nome', with: '')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
-    expect(page).to have_content('Nome deve ser preenchido')
+    expect(page).to have_content('Nome não pode ficar em branco')
   end
 
   scenario '(name must be unique)' do
@@ -71,7 +71,7 @@ feature 'Admin edits manufacturer' do
 
     expect(page).to have_field('Nome', with: 'Hyundai')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
-    expect(page).to have_content('Nome deve ser único')
+    expect(page).to have_content('Nome já está em uso')
   end
 
   scenario '(must be authenticated to have access to the edit form)' do

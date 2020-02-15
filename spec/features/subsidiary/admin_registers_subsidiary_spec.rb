@@ -25,7 +25,7 @@ feature 'Admin registers subsidiary' do
 
         expect(current_path).to eq subsidiary_path(subsidiary)
 
-        expect(page).to have_content('Filial criada com sucesso')
+        expect(page).to have_content('Filial registrada com sucesso')
         expect(page).to have_content('FilialTeste')
         expect(page).to have_content('01234567891011')
         expect(page).to have_content('Rua Seila')
@@ -53,7 +53,7 @@ feature 'Admin registers subsidiary' do
         expect(page).to have_field('CNPJ', with: '01234567891011')
         expect(page).to have_field('Endereço', with: 'Rua Seila')
         
-        expect(page).to have_content('Filial deve ser única')
+        expect(page).to have_content('CNPJ já está em uso')
     end
 
     scenario '(cnpj must be valid)' do
@@ -73,7 +73,7 @@ feature 'Admin registers subsidiary' do
         click_on 'Enviar'
 
         #Assert
-        expect(page).to have_content('CNPJ deve ser válido')
+        expect(page).to have_content('CNPJ não é válido')
     end
 
     scenario '(must be authenticated to access the create form)' do

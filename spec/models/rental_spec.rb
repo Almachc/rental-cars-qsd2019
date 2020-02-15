@@ -10,7 +10,7 @@ describe Rental do
             rental.valid?
 
             #Assert
-            expect(rental.errors.messages[:start_date]).to include('Data inicial não deve estar no passado')
+            expect(rental.errors.full_messages).to include('Data inicial não deve estar no passado')
         end
     
         it 'cannot be empty' do
@@ -21,7 +21,7 @@ describe Rental do
             rental.valid?
 
             #Assert
-            expect(rental.errors.messages[:start_date]).to include('Data inicial deve ser preenchida')
+            expect(rental.errors.full_messages).to include('Data inicial não pode ficar em branco')
         end
     end
 
@@ -34,7 +34,7 @@ describe Rental do
             rental.valid?
         
             #Assert
-            expect(rental.errors.messages[:end_date]).to include('Data final deve ser maior que a data inicial')
+            expect(rental.errors.full_messages).to include('Data final deve ser maior que Data inicial')
         end
 
         it 'cannot be empty' do
@@ -45,7 +45,7 @@ describe Rental do
             rental.valid?
 
             #Assert
-            expect(rental.errors.messages[:end_date]).to include('Data final deve ser preenchida')
+            expect(rental.errors.full_messages).to include('Data final não pode ficar em branco')
         end
     end
 
@@ -58,7 +58,7 @@ describe Rental do
             rental.cancel(description: '')
             
             #Assert
-            expect(rental.errors.messages[:cancel]).to include('A descrição deve ser preenchida')
+            expect(rental.errors.full_messages).to include('Descrição não pode ficar em branco')
         end
 
         it 'rental must be pending to be canceled' do
@@ -69,7 +69,7 @@ describe Rental do
             rental.cancel(description: 'Alguma descrição...')
     
             #Assert
-            expect(rental.errors.messages[:cancel]).to include('A locação deve estar pendente para ser cancelada')
+            expect(rental.errors.full_messages).to include("Status deve ser 'pendente'")
         end
 
         it 'cancellation must be made at least 24 hours before the start date' do
@@ -80,7 +80,7 @@ describe Rental do
             rental.cancel(description: 'Alguma descrição...')
     
             #Assert
-            expect(rental.errors.messages[:cancel]).to include('A locação já excedeu o tempo limite de cancelamento')
+            expect(rental.errors.full_messages).to include('A locação já excedeu o tempo limite de cancelamento (24h)')
         end
     end
 end

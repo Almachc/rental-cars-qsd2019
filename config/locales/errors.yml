@@ -1,0 +1,9 @@
+pt-BR:
+  errors:
+    messages:
+      cannot_be_in_the_past: 'não deve estar no passado'
+      pending: "deve ser 'pendente'"
+    models:
+      rental:
+        messages:
+          timed_out: 'A locação já excedeu o tempo limite de cancelamento (24h)'

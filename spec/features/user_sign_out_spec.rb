@@ -20,7 +20,7 @@ feature 'User sign_out' do
         click_on 'Sair'
 
         #Assert
-        expect(page).to have_content('Signed out successfully')
+        expect(page).to have_content('Saiu com sucesso')
         expect(page).to have_link('Entrar')
         expect(page).not_to have_link('Sair')
         expect(current_path).to have_content(root_path)

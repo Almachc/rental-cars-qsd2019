@@ -62,7 +62,7 @@ feature 'User registers rental' do
         expect(Rental.count).to eq 0
 
         expect(page).to have_content('Data inicial não deve estar no passado')
-        expect(page).to have_content('Data final deve ser maior que a data inicial')
+        expect(page).to have_content('Data final deve ser maior que Data inicial')
         expect(page).to have_field('Data de início', with: 1.day.ago.strftime('%d/%m/%Y'))
         expect(page).to have_field('Data de término', with: 2.days.ago.strftime('%d/%m/%Y'))
         expect(page).to have_select('Cliente', selected: 'Leopoldo')

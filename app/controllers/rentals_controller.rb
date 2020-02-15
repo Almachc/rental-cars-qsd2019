@@ -21,7 +21,7 @@ class RentalsController < ApplicationController
 
         if @rental.cars_available?
             if @rental.save
-                flash[:notice] = 'Locação agendada com sucesso'
+                flash[:notice] = t('.success')
                 redirect_to @rental
             else  
                 @clients = Client.all 
@@ -29,7 +29,7 @@ class RentalsController < ApplicationController
                 render :new
             end
         else
-            flash[:notice] = 'Carros indisponíveis para esta categoria'
+            flash[:notice] = t('.unavailable_cars')
             @clients = Client.all 
             @car_categories = CarCategory.all 
             render :new
@@ -39,10 +39,10 @@ class RentalsController < ApplicationController
     def search
         @rentals = Rental.where('code LIKE ?', "%#{params[:q].strip.upcase}%")
         if @rentals.any?
-            flash[:notice] = "Foram encontrado(s) #{@rentals.length} resultado(s)"
+            flash[:notice] = t('.success', count: @rentals.length)
             @rentals
         else
-            flash[:alert] = "Nenhum resultado encontrado para o seguinte código: #{params[:q]}"
+            flash[:alert] = t('.no_results', code: params[:q])
             redirect_to rentals_path
         end
     end
@@ -56,9 +56,9 @@ class RentalsController < ApplicationController
     def cancel
         @rental = Rental.find(params[:id])
         if @rental.cancel(description: params[:description])
-            redirect_to rentals_path, notice: 'Locação cancelada com sucesso'
+            redirect_to rentals_path, notice: t('.success')
         elsif
-            flash[:alert] = @rental.errors.messages[:cancel]
+            flash[:alert] = @rental.errors.full_messages
             redirect_to rental_path(@rental)
         end
     end

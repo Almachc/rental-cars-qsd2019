@@ -5,20 +5,20 @@ class Rental < ApplicationRecord
   has_one :car_rental
 
   validate :start_date_cannot_be_in_the_past, :end_date_must_be_greater_than_start_date
-  validates :start_date, presence: { message: 'Data inicial deve ser preenchida' }
-  validates :end_date, presence: { message: 'Data final deve ser preenchida' }
+  validates :start_date, presence: true
+  validates :end_date, presence: true
 
   enum status: { pending: 0, effective: 5, canceled: 10 }
 
   def start_date_cannot_be_in_the_past
     if start_date.present? && end_date.present? && start_date < Date.current
-      errors.add(:start_date, "Data inicial não deve estar no passado")
+      errors.add(:start_date, I18n.t(:cannot_be_in_the_past, scope: [:errors, :messages]))
     end
   end
 
   def end_date_must_be_greater_than_start_date
     if start_date.present? && end_date.present? && end_date < start_date
-      errors.add(:end_date, "Data final deve ser maior que a data inicial")
+      errors.add(:end_date, I18n.t(:greater_than, count: User.human_attribute_name("rental.start_date"), scope: [:errors, :messages]))
     end
   end
 
@@ -37,13 +37,13 @@ class Rental < ApplicationRecord
 
   def cancel(description:)
     if description.empty?
-      errors.add(:cancel, 'A descrição deve ser preenchida')
+      errors.add(:description, I18n.t(:blank, scope: [:errors, :messages]))
       false
     elsif status != 'pending'
-      errors.add(:cancel, 'A locação deve estar pendente para ser cancelada')
+      errors.add(:status, I18n.t(:pending, scope: [:errors, :messages]))
       false
     elsif (start_date - 24.hours).past?
-      errors.add(:cancel, 'A locação já excedeu o tempo limite de cancelamento')
+      errors.add(:base, I18n.t(:timed_out, scope: [:errors, :models, :rental, :messages]))
       false
     else
       update(status: 'canceled', description: description)

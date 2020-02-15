@@ -52,10 +52,10 @@ feature 'Admin edits car category' do
                                                          car_insurance: '',
                                                          third_party_insurance: '')
 
-        expect(page).to have_content('Nome deve ser preenchido')
-        expect(page).to have_content('Diária deve ser preenchido')
-        expect(page).to have_content('Seguro do carro deve ser preenchido')
-        expect(page).to have_content('Seguro contra terceiros deve ser preenchido')
+        expect(page).to have_content('Nome não pode ficar em branco')
+        expect(page).to have_content('Diária não pode ficar em branco')
+        expect(page).to have_content('Seguro do carro não pode ficar em branco')
+        expect(page).to have_content('Seguro contra terceiros não pode ficar em branco')
     end
 
     scenario '(daily rate, car insurance and third party insurance must be greater than zero)' do
@@ -87,9 +87,9 @@ feature 'Admin edits car category' do
         expect(page).to have_field('Seguro do carro', with: '0')
         expect(page).to have_field('Seguro contra terceiros', with: '0')
 
-        expect(page).to have_content('Diária deve ser maior que zero')
-        expect(page).to have_content('Seguro do carro deve ser maior que zero')
-        expect(page).to have_content('Seguro contra terceiros deve ser maior que zero')
+        expect(page).to have_content('Diária deve ser maior que 0')
+        expect(page).to have_content('Seguro do carro deve ser maior que 0')
+        expect(page).to have_content('Seguro contra terceiros deve ser maior que 0')
     end
 
     scenario '(must be authenticated to have access to the edit form)' do

@@ -47,9 +47,9 @@ feature 'User registers client' do
         #Assert
         expect(Client.count).to eq 0
 
-        expect(page).to have_content('Nome deve ser preenchido')
-        expect(page).to have_content('CPF deve ser preenchido')
-        expect(page).to have_content('Email deve ser preenchido')
+        expect(page).to have_content('Nome não pode ficar em branco')
+        expect(page).to have_content('CPF não pode ficar em branco')
+        expect(page).to have_content('Email não pode ficar em branco')
     end
 
     scenario '(CPF and Email must be unique)' do
@@ -72,8 +72,8 @@ feature 'User registers client' do
         #Assert
         expect(Client.count).to eq 1
 
-        expect(page).to have_content('CPF deve ser único')
-        expect(page).to have_content('Email deve ser único')
+        expect(page).to have_content('CPF já está em uso')
+        expect(page).to have_content('Email já está em uso')
     end
 
     scenario '(CPF and Email must be valid)' do
@@ -95,8 +95,8 @@ feature 'User registers client' do
         #Assert
         expect(Client.count).to eq 0
 
-        expect(page).to have_content('CPF deve ser válido')
-        expect(page).to have_content('Email deve ser válido')
+        expect(page).to have_content('CPF não é válido')
+        expect(page).to have_content('Email não é válido')
     end
 
     scenario '(must be authenticated to access the create form)' do

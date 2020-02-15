@@ -16,7 +16,7 @@ class CarsController < ApplicationController
     def create
         @car = Car.new(cars_params)
         if @car.save!
-            flash[:notice] = 'Carro registrado com sucesso'
+            flash[:notice] = t('.success')
             redirect_to @car
         else  
             #render

@@ -3,19 +3,19 @@ class CarCategory < ApplicationRecord
     has_many :rentals
 
     validates :name, 
-        presence: {message: 'Nome deve ser preenchido'}
+        presence: true
 
     validates :daily_rate,
-        presence: {message: 'Diária deve ser preenchido'},
-        numericality: { greater_than: 0, allow_nil: true, message: 'Diária deve ser maior que zero' }
+        presence: true,
+        numericality: { greater_than: 0, allow_nil: true}
 
     validates :car_insurance,
-        presence: {message: 'Seguro do carro deve ser preenchido'},
-        numericality: { greater_than: 0, allow_nil: true, message: 'Seguro do carro deve ser maior que zero' }
+        presence: true,
+        numericality: { greater_than: 0, allow_nil: true}
     
     validates :third_party_insurance,
-        presence: {message: 'Seguro contra terceiros deve ser preenchido'},
-        numericality: { greater_than: 0, allow_nil: true, message: 'Seguro contra terceiros deve ser maior que zero' }
+        presence: true,
+        numericality: { greater_than: 0, allow_nil: true}
 
     def total_price
         daily_rate + car_insurance + third_party_insurance

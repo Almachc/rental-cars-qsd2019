@@ -20,7 +20,7 @@ class ClientsController < ApplicationController
     def create
         @client = Client.new(client_params)
         if @client.save
-            flash[:notice] = 'Cliente registrado com sucesso'
+            flash[:notice] = t('.success')
             redirect_to @client
         else
             render :new
@@ -30,7 +30,7 @@ class ClientsController < ApplicationController
     def update
         @client = Client.find(params[:id])
         if @client.update(client_params)
-            flash[:notice] = 'Cliente editado com sucesso'
+            flash[:notice] = t('.success')
             redirect_to @client
         else
             render :edit
@@ -40,7 +40,7 @@ class ClientsController < ApplicationController
     def destroy
         @client = Client.find(params[:id])
         if @client.destroy
-            flash[:notice] = 'Cliente deletado com sucesso'
+            flash[:notice] = t('.success')
             redirect_to clients_path
         else
             # flash[:alert] = 'Ops, algo deu errado'

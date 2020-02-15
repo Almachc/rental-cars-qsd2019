@@ -13,7 +13,7 @@ class CarAccessoriesController < ApplicationController
   def create 
     @car_accessory = CarAccessory.new(car_accessory_params)
     if @car_accessory.save
-      flash[:notice] = 'Acessório registrado com sucesso'
+      flash[:notice] = t('.success')
       redirect_to @car_accessory
     else 
       #render :new

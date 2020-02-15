@@ -23,7 +23,7 @@ feature 'Admin registers manufacturer' do
     expect(current_path).to eq manufacturer_path(manufacturer)
 
     expect(page).to have_content('Hyundai')
-    expect(page).to have_content('Fabricante criada com sucesso')
+    expect(page).to have_content('Fabricante registrada com sucesso')
   end
 
   scenario '(all fields must be filled)' do
@@ -43,7 +43,7 @@ feature 'Admin registers manufacturer' do
     expect(Manufacturer.count).to eq 0
 
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
-    expect(page).to have_content('Nome deve ser preenchido')
+    expect(page).to have_content('Nome não pode ficar em branco')
   end
 
   scenario '(name must be unique)' do
@@ -66,7 +66,7 @@ feature 'Admin registers manufacturer' do
 
     expect(page).to have_field('Nome', with: 'Hyundai')
     expect(page).to have_content('Você deve corrigir os seguintes erros para continuar')
-    expect(page).to have_content('Nome deve ser único')
+    expect(page).to have_content('Nome já está em uso')
   end
 
   scenario '(must be authenticated to access the create form)' do

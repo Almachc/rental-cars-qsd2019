@@ -60,12 +60,12 @@ feature 'Admin edits car model' do
         expect(page).to have_field('Categoria de carro', with: '1')
         expect(page).to have_field('Tipo de combustível', with: '')
 
-        expect(page).to have_content('Nome deve ser preenchido')
-        expect(page).to have_content('Ano deve ser preenchido')
-        #expect(page).to have_content('Fabricante deve ser preenchido')
-        expect(page).to have_content('Motorização deve ser preenchido')
-        #expect(page).to have_content('Categoria de carro deve ser preenchido')
-        expect(page).to have_content('Tipo de combustível deve ser preenchido')
+        expect(page).to have_content('Nome não pode ficar em branco')
+        expect(page).to have_content('Ano não pode ficar em branco')
+        expect(page).to have_content('Motorização não pode ficar em branco')
+        expect(page).to have_content('Tipo de combustível não pode ficar em branco')
+        #expect(page).to have_content('Fabricante é obrigatório(a)')
+        #expect(page).to have_content('Categoria é obrigatório(a)')
     end
 
     scenario '(must be authenticated to have access to the edit form)' do

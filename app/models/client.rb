@@ -1,21 +1,9 @@
-class EmailValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-      record.errors[attribute] << (options[:message] || "Email deve ser válido")
-    end
-  end
-end
-
 class Client < ApplicationRecord
-    validates :name, presence: { message: 'Nome deve ser preenchido' }
+    validates :name, presence: true
     
-    validates :cpf, 
-        presence: { message: 'CPF deve ser preenchido' },
-        format: { with: /\d{11}/, message: 'CPF deve ser válido' },
-        uniqueness: { message: 'CPF deve ser único' }
+    validates :cpf, presence: true, uniqueness: true,
+                    format: { with: /\d{11}/ }
 
-    validates :email, 
-        presence: { message: 'Email deve ser preenchido' },
-        uniqueness: { message: 'Email deve ser único' },
-        email: true
+    validates :email, presence: true, uniqueness: true,
+                      format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 end

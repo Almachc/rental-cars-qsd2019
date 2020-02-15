@@ -20,7 +20,7 @@ class ManufacturersController < ApplicationController
   def create
     @manufacturer = Manufacturer.new(manufacturer_params)
     if @manufacturer.save
-      flash[:notice] = 'Fabricante criada com sucesso'
+      flash[:notice] = t('.success')
       redirect_to @manufacturer
     else
       # flash.now[:alert] = 'Você deve corrigir os seguintes erros'
@@ -31,7 +31,7 @@ class ManufacturersController < ApplicationController
   def update
     @manufacturer = Manufacturer.find(params[:id])
     if @manufacturer.update(manufacturer_params)
-      flash[:notice] = 'Fabricante editada com sucesso'
+      flash[:notice] = t('.success')
       redirect_to @manufacturer
     else
       render :edit

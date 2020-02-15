@@ -61,7 +61,9 @@ feature 'User cancels rental' do
 
         expect(current_path).to eq rental_path(rental)
 
-        expect(page).to have_content('A locação já excedeu o tempo limite de cancelamento')
+        save_page
+
+        expect(page).to have_content('A locação já excedeu o tempo limite de cancelamento (24h)')
     end
 
     scenario '(rental must be pending for the cancellation button to be displayed)' do

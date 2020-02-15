@@ -16,8 +16,7 @@ class CarRentalsController < ApplicationController
                                               price: rental.car_category.total_price,
                                               start_mileage: car.mileage)
         if car_rental.save!
-            flash[:notice] = 'Locação efetivada com sucesso'
-            #car.update(status: "unavailable")
+            flash[:notice] = t('.success')
             redirect_to car_rental
         else  
             #render

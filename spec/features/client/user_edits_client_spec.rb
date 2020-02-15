@@ -52,9 +52,9 @@ feature 'User edits client' do
         expect(page).to have_field('CPF', with: '')
         expect(page).to have_field('Email', with: '')
 
-        expect(page).to have_content('Nome deve ser preenchido')
-        expect(page).to have_content('CPF deve ser preenchido')
-        expect(page).to have_content('Email deve ser preenchido')
+        expect(page).to have_content('Nome não pode ficar em branco')
+        expect(page).to have_content('CPF não pode ficar em branco')
+        expect(page).to have_content('Email não pode ficar em branco')
     end
 
     scenario '(CPF and Email must be unique)' do
@@ -79,8 +79,8 @@ feature 'User edits client' do
         #Assert
         expect(client.reload).to have_attributes(cpf: '42074026838', email: 'leopoldo@gmail.com') 
 
-        expect(page).to have_content('CPF deve ser único')
-        expect(page).to have_content('Email deve ser único')
+        expect(page).to have_content('CPF já está em uso')
+        expect(page).to have_content('Email já está em uso')
     end
 
     scenario '(CPF and Email must be valid)' do
@@ -102,8 +102,8 @@ feature 'User edits client' do
         #Assert
         expect(client.reload).to_not have_attributes(cpf: '42074026', email: 'leopoldo@gmailcom') 
 
-        expect(page).to have_content('CPF deve ser válido')
-        expect(page).to have_content('Email deve ser válido')
+        expect(page).to have_content('CPF não é válido')
+        expect(page).to have_content('Email não é válido')
     end
 
     scenario '(must be authenticated to have access to the edit form)' do

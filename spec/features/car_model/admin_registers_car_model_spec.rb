@@ -31,7 +31,7 @@ feature 'Admin registers car model' do
 
         expect(current_path).to eq car_model_path(car_model)
 
-        expect(page).to have_content('Modelo cadastrado com sucesso')
+        expect(page).to have_content('Modelo registrado com sucesso')
         expect(page).to have_content('HB20')
         expect(page).to have_content('2019')
         expect(page).to have_content('Hyundai')
@@ -56,12 +56,12 @@ feature 'Admin registers car model' do
         #Assert
         expect(CarModel.count).to eq 0
         
-        expect(page).to have_content('Nome deve ser preenchido')
-        expect(page).to have_content('Ano deve ser preenchido')
-        expect(page).to have_content('Fabricante deve ser preenchido')    
-        expect(page).to have_content('Motorização deve ser preenchido')
-        expect(page).to have_content('Categoria deve ser preenchido')
-        expect(page).to have_content('Tipo de combustível deve ser preenchido')
+        expect(page).to have_content('Nome não pode ficar em branco')
+        expect(page).to have_content('Ano não pode ficar em branco')
+        expect(page).to have_content('Fabricante é obrigatório(a)')
+        expect(page).to have_content('Motorização não pode ficar em branco')
+        expect(page).to have_content('Categoria de carro é obrigatório(a)')
+        expect(page).to have_content('Tipo de combustível não pode ficar em branco')
     end
 
     scenario '(must be authenticated to access the create form)' do

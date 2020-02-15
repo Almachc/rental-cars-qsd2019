@@ -85,6 +85,7 @@ feature 'User starts rental' do
         expect(page).not_to have_content('FDM2000')
     end
 
+    #Teste unitário?!
     scenario '(price and mileage must be obligatory)' do
         #Arrange
         user = create(:user)
@@ -96,7 +97,7 @@ feature 'User starts rental' do
         car_rental.valid?
 
         #Assert
-        expect(car_rental.errors.messages[:price]).to include('O preço (baseado no custo atual da categoria) é obrigatório')
-        expect(car_rental.errors.messages[:start_mileage]).to include('A quilometragem inicial (baseada na quilometragem atual do carro) é obrigatória')
+        expect(car_rental.errors.messages[:price]).to include('não pode ficar em branco')
+        expect(car_rental.errors.messages[:start_mileage]).to include('não pode ficar em branco')
     end
 end

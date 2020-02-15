@@ -20,7 +20,7 @@ class SubsidiariesController < ApplicationController
     def create
         @subsidiary = Subsidiary.new(subsidiary_params)
         if @subsidiary.save
-            flash[:notice] = 'Filial criada com sucesso'
+            flash[:notice] = t('.success')
             redirect_to @subsidiary
         else
             render :new
@@ -30,7 +30,7 @@ class SubsidiariesController < ApplicationController
     def update
         @subsidiary = Subsidiary.find(params[:id])
         if @subsidiary.update(subsidiary_params)
-            flash[:notice] = 'Filial editada com sucesso'
+            flash[:notice] = t('.success')
             redirect_to @subsidiary
         else 
             render :edit
@@ -40,7 +40,7 @@ class SubsidiariesController < ApplicationController
     def destroy
         @subsidiary = Subsidiary.find(params[:id])
         @subsidiary.destroy
-        flash[:notice] = 'Filial deletada com sucesso'
+        flash[:notice] = t('.success')
         redirect_to subsidiaries_path
     end
 

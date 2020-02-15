@@ -50,7 +50,7 @@ feature 'Admin edits subsidiary' do
         expect(Subsidiary.find(subsidiary.id)).to have_attributes(name: subsidiary.name, cnpj: subsidiary.cnpj,
                                                     address: subsidiary.address)
 
-        expect(page).to have_content('Filial deve ser única')
+        expect(page).to have_content('CNPJ já está em uso')
         expect(page).to have_field('Nome', with: subsidiary.name)
         expect(page).to have_field('CNPJ', with: '01234567891011')
         expect(page).to have_field('Endereço', with: subsidiary.address)
@@ -77,7 +77,7 @@ feature 'Admin edits subsidiary' do
         expect(Subsidiary.first).to have_attributes(name: subsidiary.name, cnpj: subsidiary.cnpj,
                                                     address: subsidiary.address)
 
-        expect(page).to have_content('CNPJ deve ser válido')
+        expect(page).to have_content('CNPJ não é válido')
     end
 
     scenario '(must be authenticated to have access to the edit form)' do

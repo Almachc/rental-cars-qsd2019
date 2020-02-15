@@ -52,7 +52,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error) 
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 
@@ -86,7 +86,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:not_found)
-            expect(converted_json[:notice]).to eq("Couldn't find Car with 'id'=0")
+            expect(converted_json[:notice]).to eq('Nenhum resultado encontrado')
         end
 
         it 'should returned a server error (500)' do
@@ -105,7 +105,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error)
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 
@@ -144,7 +144,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:unprocessable_entity) 
-            expect(converted_json[:notice]).to eq('param is missing or the value is empty: car')
+            expect(converted_json[:notice]).to eq('Ops, aparentemente você está fazendo algo de errado')
         end
 
         it 'should returned a client error (ActiveRecord::RecordInvalid)' do
@@ -155,7 +155,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:unprocessable_entity) 
-            expect(converted_json[:notice]).to eq('Validation failed: Car model must exist')
+            expect(converted_json[:notice]).to eq('Ops, aparentemente você está fazendo algo de errado')
         end
 
         it 'should returned a server error (500)' do
@@ -173,7 +173,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error)
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 
@@ -214,7 +214,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:unprocessable_entity) 
-            expect(converted_json[:notice]).to eq('param is missing or the value is empty: car')
+            expect(converted_json[:notice]).to eq('Ops, aparentemente você está fazendo algo de errado')
         end
 
         it 'should returned a client error (ActiveRecord::RecordInvalid)' do
@@ -231,7 +231,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:unprocessable_entity) 
-            expect(converted_json[:notice]).to eq('Validation failed: Car model must exist')
+            expect(converted_json[:notice]).to eq('Ops, aparentemente você está fazendo algo de errado')
         end
 
         it 'should returned a server error (500)' do
@@ -250,7 +250,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error)
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 
@@ -284,7 +284,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:not_found)
-            expect(converted_json[:notice]).to eq("Couldn't find Car with 'id'=0")
+            expect(converted_json[:notice]).to eq('Nenhum resultado encontrado')
         end
 
         it 'should returned a server error (500)' do
@@ -303,7 +303,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error)
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 
@@ -324,7 +324,7 @@ describe 'Car management' do
             expect(car.reload.status).to eq('unavailable')
 
             expect(response).to have_http_status(:ok)
-            expect(converted_json[:notice]).to eq("Carro de placa 'ABC1234' alterado com sucesso. Seu status agora é: 'Indisponível'")
+            expect(converted_json[:notice]).to eq('Status alterado com sucesso')
         end
 
         it 'should returned a client error (ActiveRecord::RecordInvalid)' do
@@ -341,7 +341,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:unprocessable_entity) 
-            expect(converted_json[:notice]).to eq("'valor_inexistente' is not a valid status")
+            expect(converted_json[:notice]).to eq('Ops, aparentemente você está fazendo algo de errado')
         end
 
         it 'should returned a server error (500)' do
@@ -360,7 +360,7 @@ describe 'Car management' do
             converted_json = JSON.parse(response.body, symbolize_names: true)
 
             expect(response).to have_http_status(:internal_server_error)
-            expect(converted_json[:notice]).to eq('ActiveRecord::ConnectionNotEstablished')
+            expect(converted_json[:notice]).to eq('Desculpe-nos o transtorno, houve um erro em nosso servidor')
         end
     end
 end
