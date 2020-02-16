@@ -4,15 +4,18 @@ pt-BR:
       car_category:
         one: 'Categoria de carro'
         other: 'Categorias de carro'
+
       car_model:
         one: 'Modelo de carro'
         other: 'Modelos de carro'
+
     attributes:
       car_category:
         name: 'Nome'
         daily_rate: 'Diária'
         car_insurance: 'Seguro do carro'
         third_party_insurance: 'Seguro contra terceiros'
+
       car_model:
         name: 'Nome'
         year: 'Ano'
@@ -20,18 +23,22 @@ pt-BR:
         fuel_type: 'Tipo de combustível'
         manufacturer: 'Fabricante'
         car_category: 'Categoria de carro'
+
       car_rental:
         rental: 'Locação'
         car: 'Carro'
         price: "Preço (baseado no custo atual da categoria de 'locação')"
         start_mileage: "Quilometragem inicial (baseada na quilometragem atual do carro de 'locação')"
         end_mileage: 'Quilometragem final'
+
       client:
         name: 'Nome'
         cpf: 'CPF'
         email: 'Email'
+
       manufacturer:
         name: 'Nome'
+
       rental:
         code: 'Código'
         start_date: 'Data inicial'
@@ -41,10 +48,12 @@ pt-BR:
         user: 'Usuário'
         status: 'Status'
         description: 'Descrição'
+
       subsidiary:
         name: 'Nome'
         cnpj: 'CNPJ'
         address: 'Endereço'
+        
       car:
         license_plate: 'Placa'
         color: 'Cor'

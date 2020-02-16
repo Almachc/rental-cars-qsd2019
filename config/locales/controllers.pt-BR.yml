@@ -6,14 +6,17 @@ pt-BR:
       success: 'Categoria editada com sucesso'
     destroy:
       success: 'Categoria deletada com sucesso'
+
   car_models:
     create:
       success: 'Modelo registrado com sucesso'
     update:
       success: 'Modelo editado com sucesso'
+
   car_rentals:
     create:
       success: 'Locação efetivada com sucesso'
+
   rentals:
     create:
       success: 'Locação agendada com sucesso'
@@ -23,9 +26,11 @@ pt-BR:
       no_results: 'Nenhum resultado encontrado para o seguinte código: %{code}'
     cancel:
       success: 'Locação cancelada com sucesso'
+
   cars:
     create:
       success: 'Carro registrado com sucesso'
+
   clients:
     create:
       success: 'Cliente registrado com sucesso'
@@ -33,11 +38,13 @@ pt-BR:
       success: 'Cliente editado com sucesso'
     destroy:
       success: 'Cliente deletado com sucesso'
+
   manufacturers:
     create:
       success: 'Fabricante registrada com sucesso'
     update:
       success: 'Fabricante editada com sucesso'
+
   subsidiaries:
     create:
       success: 'Filial registrada com sucesso'
@@ -45,9 +52,11 @@ pt-BR:
       success: 'Filial editada com sucesso'
     destroy:
       success: 'Filial deletada com sucesso'
+
   car_accessories:
     create:
       success: 'Acessório registrado com sucesso'
+      
   api:
     v1:
       cars:

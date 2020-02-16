@@ -1,0 +1,6 @@
+pt-BR:
+  helpers:
+    links:
+      submit: 'Enviar'
+      return: 'Voltar'
+      register_new: 'Registrar novo(a) %{model}'

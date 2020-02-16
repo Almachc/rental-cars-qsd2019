@@ -71,4 +71,6 @@ RSpec.configure do |config|
 
   #FactoryBot
   config.include FactoryBot::Syntax::Methods
+
+  config.include ApplicationHelper
 end

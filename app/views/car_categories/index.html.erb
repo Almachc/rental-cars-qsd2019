@@ -1,4 +1,4 @@
-<%= link_to 'Registrar nova categoria de carro', new_car_category_path %>
+<%= link_to t_link(:register_new, :car_category), new_car_category_path %>
 
 <%= flash[:notice] %>
 
@@ -6,4 +6,4 @@
     <%= link_to category.name, category %>
 <% end %>
 
-<%= link_to 'Voltar', root_path %>
+<%= link_to t_link(:return), root_path %>
