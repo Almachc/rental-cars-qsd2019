@@ -7,11 +7,14 @@ class Car < ApplicationRecord
     "#{car_model.manufacturer.name} / #{car_model.name} - #{license_plate} - #{color}"
   end
 
-  def self.statuses_in_pt
-    statuses.transform_keys {|index| index == 'available' ? 'Disponível' : 'Indisponível' }
+  def self.statuses_internationalized
+    statuses.transform_keys {|key| key == 'available' ? 
+                             Car.human_attribute_name('available') :
+                             Car.human_attribute_name('unavailable') }
   end
 
-  def status_in_pt
-    status == 'available' ? 'Disponível' : 'Indisponível'
+  def status_internationalized
+    status == 'available' ? Car.human_attribute_name("available") :
+                            Car.human_attribute_name("unavailable")
   end
 end

@@ -45,3 +45,11 @@ pt-BR:
         name: 'Nome'
         cnpj: 'CNPJ'
         address: 'Endereço'
+      car:
+        license_plate: 'Placa'
+        color: 'Cor'
+        car_model: 'Modelo'
+        mileage: 'Quilometragem'
+        status: 'Status'
+        available: 'Disponível'
+        unavailable: 'Indisponível'

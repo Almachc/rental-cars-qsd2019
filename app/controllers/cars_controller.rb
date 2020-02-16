@@ -5,7 +5,7 @@ class CarsController < ApplicationController
     def new
         @car = Car.new
         @car_models = CarModel.all
-        @status_array = Car.statuses_in_pt.to_a
+        @status_array = Car.statuses_internationalized.to_a
     end
 
     def show
