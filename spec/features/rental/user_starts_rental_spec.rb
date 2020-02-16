@@ -30,11 +30,11 @@ feature 'User starts rental' do
         click_on 'Efetivar'
       
         #Assert
-        expect(page).to have_content("Locação: #{rental.code}")
-        expect(page).to have_content("Cliente: #{rental.client.name} - #{rental.client.cpf}")
-        expect(page).to have_content("Carro: #{car.full_description}")
-        expect(page).to have_content("Quilometragem inicial: #{car.mileage}")
-        expect(page).to have_content("Preço: #{rental.car_category.total_price}")
+        expect(page).to have_content("#{rental.code}")
+        expect(page).to have_content("#{rental.client.name} - #{rental.client.cpf}")
+        expect(page).to have_content("#{car.full_description}")
+        expect(page).to have_content("#{car.mileage}")
+        expect(page).to have_content("#{rental.car_category.total_price}")
     end
 
     scenario '(must be authenticated to access the form with valid cars)' do

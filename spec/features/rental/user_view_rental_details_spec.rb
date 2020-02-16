@@ -22,8 +22,8 @@ feature 'User view rental details' do
 
         #Assert
         expect(page).to have_content(rental.code)
-        expect(page).to have_content(rental.start_date.strftime('%d/%m/%Y'))
-        expect(page).to have_content(rental.end_date.strftime('%d/%m/%Y'))
+        expect(page).to have_content(I18n.l(rental.start_date, format: I18n.t('date.formats.default')))
+        expect(page).to have_content(I18n.l(rental.end_date, format: I18n.t('date.formats.default')))
         expect(page).to have_content(rental.client.name)
         expect(page).to have_content(rental.car_category.name)
         expect(page).to have_content(rental.user.email)

@@ -1,6 +1,6 @@
 <%= @rental.code %>
-<%= @rental.start_date.strftime('%d/%m/%Y') %>
-<%= @rental.end_date.strftime('%d/%m/%Y') %>
+<%= l(@rental.start_date, format: t('date.formats.default')) %>
+<%= l(@rental.end_date, format: t('date.formats.default')) %>
 <%= @rental.client.name %>
 <%= @rental.car_category.name %>
 <%= @rental.user.email %>

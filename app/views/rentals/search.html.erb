@@ -3,8 +3,8 @@
     <% @rentals.each do |rental| %>
         <tr id='rental-<%= rental.id %>'>
             <td><%= rental.code %></td>
-            <td><%= rental.start_date.strftime('%d/%m/%Y') %></td>
-            <td><%= rental.end_date.strftime('%d/%m/%Y') %></td>
+            <td><%= l(rental.start_date, format: t('date.formats.default')) %></td>
+            <td><%= l(rental.end_date, format: t('date.formats.default')) %></td>
             <td><%= rental.client.name %></td>
             <td><%= rental.car_category.name %></td>
             <td><%= link_to 'Visualizar', rental_path(rental) %></td>

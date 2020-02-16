@@ -13,9 +13,8 @@ feature 'User registers rental' do
         click_on 'Locações'
         
         click_on 'Registrar nova locação'
-
-        fill_in 'Data de início', with: Date.current.strftime('%d/%m/%Y')
-        fill_in 'Data de término', with: 1.day.from_now.strftime('%d/%m/%Y')
+        fill_in 'Data de início', with: I18n.l(Date.current, format: I18n.t('date.formats.default'))
+        fill_in 'Data de término', with: I18n.l(1.day.from_now, format: I18n.t('date.formats.default'))
         select 'Leopoldo', from: 'Cliente'
         select 'catA', from: 'Categoria de carro'
         click_on 'Enviar'
@@ -27,8 +26,8 @@ feature 'User registers rental' do
 
         expect(page).to have_content('Locação agendada com sucesso')
         #expect(Rental.last.code).to match(/[a-zA-Z0-9]+/)
-        expect(page).to have_content(Date.current.strftime('%d/%m/%Y'))
-        expect(page).to have_content(1.day.from_now.strftime('%d/%m/%Y'))
+        expect(page).to have_content(I18n.l(Date.current, format: I18n.t('date.formats.default')))
+        expect(page).to have_content(I18n.l(1.day.from_now, format: I18n.t('date.formats.default')))
         expect(page).to have_content('Leopoldo')
         expect(page).to have_content('catA')
         expect(page).to have_content(user.email)
@@ -51,9 +50,8 @@ feature 'User registers rental' do
         click_on 'Locações'
         
         click_on 'Registrar nova locação'
-
-        fill_in 'Data de início', with: 1.day.ago.strftime('%d/%m/%Y')
-        fill_in 'Data de término', with: 2.days.ago.strftime('%d/%m/%Y')
+        fill_in 'Data de início', with: I18n.l(1.day.ago, format: I18n.t('date.formats.default'))
+        fill_in 'Data de término', with: I18n.l(2.days.ago, format: I18n.t('date.formats.default'))
         select 'Leopoldo', from: 'Cliente'
         select 'catA', from: 'Categoria de carro'
         click_on 'Enviar'
@@ -63,8 +61,8 @@ feature 'User registers rental' do
 
         expect(page).to have_content('Data inicial não deve estar no passado')
         expect(page).to have_content('Data final deve ser maior que Data inicial')
-        expect(page).to have_field('Data de início', with: 1.day.ago.strftime('%d/%m/%Y'))
-        expect(page).to have_field('Data de término', with: 2.days.ago.strftime('%d/%m/%Y'))
+        expect(page).to have_field('Data de início', with: I18n.l(1.day.ago, format: I18n.t('date.formats.default')))
+        expect(page).to have_field('Data de término', with: I18n.l(2.days.ago, format: I18n.t('date.formats.default')))
         expect(page).to have_select('Cliente', selected: 'Leopoldo')
         expect(page).to have_content('Goku')
         expect(page).to have_select('Categoria', selected: 'catA')
@@ -87,8 +85,8 @@ feature 'User registers rental' do
         
         click_on 'Registrar nova locação'
 
-        fill_in 'Data de início', with: Date.current.strftime('%d/%m/%Y')
-        fill_in 'Data de término', with: 1.day.from_now.strftime('%d/%m/%Y')
+        fill_in 'Data de início', with: I18n.l(Date.current, format: I18n.t('date.formats.default'))
+        fill_in 'Data de término', with: I18n.l(1.day.from_now, format: I18n.t('date.formats.default'))
         select client.name, from: 'Cliente'
         select car_category.name, from: 'Categoria de carro'
         click_on 'Enviar'
