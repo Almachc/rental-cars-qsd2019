@@ -53,6 +53,7 @@ FactoryBot.define do
 	  	client
 		car_category
 		user
+		car_accessory
 	end
 
 	factory :car_rental do
@@ -62,4 +63,17 @@ FactoryBot.define do
 		rental
 		car
 	end
+
+	factory :car_accessory do
+		name { 'GPS' }
+		description { 'Blablabla' }
+		daily_rate { 50.0 }
+		units { 1 }
+	end
+
+	# factory :accessory_rental do
+	# 	daily_rate { 50.0 }
+	# 	rental
+	# 	car_accessory
+	# end
 end

@@ -3,6 +3,7 @@
 <%= l(@rental.end_date, format: t('date.formats.default')) %>
 <%= @rental.client.name %>
 <%= @rental.car_category.name %>
+<%= @rental.car_accessory.name %>
 <%= @rental.user.email %>
 
 <%= link_to 'Efetivar locação', start_rental_path(id: @rental.id) %>

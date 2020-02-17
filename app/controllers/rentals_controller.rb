@@ -11,6 +11,7 @@ class RentalsController < ApplicationController
     def new
         @clients = Client.all 
         @car_categories = CarCategory.all 
+        @car_accessories = CarAccessory.all_available
         @rental = Rental.new
     end
 
@@ -18,20 +19,16 @@ class RentalsController < ApplicationController
         @rental = Rental.new(rental_params)
         @rental.code = SecureRandom.hex(7)
         @rental.user = current_user
-
-        if @rental.cars_available?
-            if @rental.save
-                flash[:notice] = t('.success')
-                redirect_to @rental
-            else  
-                @clients = Client.all 
-                @car_categories = CarCategory.all 
-                render :new
-            end
+        
+        if @rental.ok? && @rental.save
+            flash[:notice] = t('.success')
+            redirect_to @rental
         else
-            flash[:notice] = t('.unavailable_cars')
+            #flash[:notice] = t('.unavailable_cars')
+            #flash[:notice] = 'Acessório indisponível para a período especificado'
             @clients = Client.all 
             @car_categories = CarCategory.all 
+            @car_accessories = CarAccessory.all
             render :new
         end
     end
@@ -66,6 +63,6 @@ class RentalsController < ApplicationController
     private
 
     def rental_params
-        params.require(:rental).permit(:start_date, :end_date, :client_id, :car_category_id)
+        params.require(:rental).permit(:start_date, :end_date, :client_id, :car_category_id, :car_accessory_id)
     end
 end

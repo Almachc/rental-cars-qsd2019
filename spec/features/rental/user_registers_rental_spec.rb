@@ -6,6 +6,7 @@ feature 'User registers rental' do
         user = create(:user)
         create(:client)
         create(:car)
+        create(:car_accessory)
 
         #Act
         login_as(user, scope: :user)
@@ -17,6 +18,8 @@ feature 'User registers rental' do
         fill_in 'Data de término', with: I18n.l(1.day.from_now, format: I18n.t('date.formats.default'))
         select 'Leopoldo', from: 'Cliente'
         select 'catA', from: 'Categoria de carro'
+        select 'GPS', from: 'Acessório'
+
         click_on 'Enviar'
 
         #Assert
@@ -30,6 +33,7 @@ feature 'User registers rental' do
         expect(page).to have_content(I18n.l(1.day.from_now, format: I18n.t('date.formats.default')))
         expect(page).to have_content('Leopoldo')
         expect(page).to have_content('catA')
+        expect(page).to have_content('GPS')
         expect(page).to have_content(user.email)
     end
 
@@ -43,6 +47,7 @@ feature 'User registers rental' do
         create(:car, car_model: car_model)
         create(:client, name: 'Leopoldo', cpf: 42074026838, email: 'leopoldo@gmail.com')
         create(:client, name: 'Goku', cpf: 550740268343, email: 'goku@gmail.com')
+        create(:car_accessory)
 
         #Act
         login_as(user, scope: :user)
@@ -95,6 +100,37 @@ feature 'User registers rental' do
         expect(Rental.count).to eq 1
         
         expect(page).to have_content('Carros indisponíveis para esta categoria')
+    end
+
+    scenario '(car_accessory must be available)' do
+        #Arrange
+        user = create(:user)
+        car_category = create(:car_category)
+        car_model = create(:car_model, car_category: car_category)
+        create(:car, car_model: car_model)
+        create(:car, car_model: car_model)
+        client = create(:client)
+        car_accessory = create(:car_accessory, units: 1)
+        create(:rental, client: client, car_category: car_category, user: user, car_accessory: car_accessory)
+
+        #Act
+        login_as(user, scope: :user)
+        visit root_path
+        click_on 'Locações'
+        
+        click_on 'Registrar nova locação'
+
+        fill_in 'Data de início', with: I18n.l(Date.current, format: I18n.t('date.formats.default'))
+        fill_in 'Data de término', with: I18n.l(1.day.from_now, format: I18n.t('date.formats.default'))
+        select client.name, from: 'Cliente'
+        select car_category.name, from: 'Categoria de carro'
+        select car_accessory.name, from: 'Acessório'
+        click_on 'Enviar'
+
+        #Assert
+        expect(Rental.count).to eq 1
+        
+        expect(page).to have_content('Acessório indisponível para a período especificado')
     end
 
     scenario '(must be authenticated to access the register form)' do

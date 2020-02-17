@@ -3,8 +3,10 @@ class Rental < ApplicationRecord
   belongs_to :car_category
   belongs_to :user
   has_one :car_rental
+  belongs_to :car_accessory
 
   validate :start_date_cannot_be_in_the_past, :end_date_must_be_greater_than_start_date
+
   validates :start_date, presence: true
   validates :end_date, presence: true
 
@@ -22,6 +24,20 @@ class Rental < ApplicationRecord
     end
   end
 
+  def ok?
+    result = true
+    unless cars_available?
+      errors.add(:base, I18n.t(:blank, scope: [:errors, :messages]))
+      result = false
+    end
+    unless accessory_available?
+      errors.add(:accessory, )
+      result = false
+    end
+
+    result
+  end
+
   def cars_available?
     cars = Car.where(car_model: car_category.car_models)
     rentals = car_category.rentals.to_a
@@ -33,6 +49,20 @@ class Rental < ApplicationRecord
     end
 
     cars.length > rentals.length
+  end
+
+  def accessory_available?
+    return true if car_accessory.nil?
+
+    rentals = Rental.all.to_a
+
+    rentals.filter! do |rental|
+      rental.status != 'canceled' &&
+      rental.start_date.between?(start_date, end_date) ||
+      rental.end_date.between?(start_date, end_date)
+    end
+
+    car_accessory.units > rentals.length
   end
 
   def cancel(description:)

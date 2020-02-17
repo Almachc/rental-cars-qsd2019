@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_004224) do
+ActiveRecord::Schema.define(version: 2020_02_17_025435) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_02_09_004224) do
     t.decimal "daily_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "units"
   end
 
   create_table "car_categories", force: :cascade do |t|
@@ -111,6 +112,8 @@ ActiveRecord::Schema.define(version: 2020_02_09_004224) do
     t.integer "user_id"
     t.integer "status", default: 0
     t.string "description"
+    t.integer "car_accessory_id"
+    t.index ["car_accessory_id"], name: "index_rentals_on_car_accessory_id"
     t.index ["car_category_id"], name: "index_rentals_on_car_category_id"
     t.index ["client_id"], name: "index_rentals_on_client_id"
     t.index ["user_id"], name: "index_rentals_on_user_id"
