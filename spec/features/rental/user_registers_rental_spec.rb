@@ -130,7 +130,7 @@ feature 'User registers rental' do
         #Assert
         expect(Rental.count).to eq 1
         
-        expect(page).to have_content('Acessório indisponível para a período especificado')
+        expect(page).to have_content('Acessório indisponível para o período especificado')
     end
 
     scenario '(must be authenticated to access the register form)' do

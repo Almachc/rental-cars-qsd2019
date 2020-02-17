@@ -11,7 +11,7 @@ class RentalsController < ApplicationController
     def new
         @clients = Client.all 
         @car_categories = CarCategory.all 
-        @car_accessories = CarAccessory.all_available
+        @car_accessories = CarAccessory.all
         @rental = Rental.new
     end
 
@@ -24,8 +24,6 @@ class RentalsController < ApplicationController
             flash[:notice] = t('.success')
             redirect_to @rental
         else
-            #flash[:notice] = t('.unavailable_cars')
-            #flash[:notice] = 'Acessório indisponível para a período especificado'
             @clients = Client.all 
             @car_categories = CarCategory.all 
             @car_accessories = CarAccessory.all

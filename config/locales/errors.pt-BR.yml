@@ -7,3 +7,5 @@ pt-BR:
       rental:
         messages:
           timed_out: 'A locação já excedeu o tempo limite de cancelamento (24h)'
+          unavailable_cars: 'Carros indisponíveis para esta categoria'
+          unavailable_car_accessory: 'Acessório indisponível para o período especificado'

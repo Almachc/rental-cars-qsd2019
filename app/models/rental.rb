@@ -27,14 +27,13 @@ class Rental < ApplicationRecord
   def ok?
     result = true
     unless cars_available?
-      errors.add(:base, I18n.t(:blank, scope: [:errors, :messages]))
+      errors.add(:base, I18n.t(:unavailable_cars, scope: [:errors, :models, :rental, :messages]))
       result = false
     end
     unless accessory_available?
-      errors.add(:accessory, )
+      errors.add(:base, I18n.t(:unavailable_car_accessory, scope: [:errors, :models, :rental, :messages]))
       result = false
     end
-
     result
   end
 

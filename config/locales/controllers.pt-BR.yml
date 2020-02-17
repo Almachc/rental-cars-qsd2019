@@ -20,7 +20,6 @@ pt-BR:
   rentals:
     create:
       success: 'Locação agendada com sucesso'
-      unavailable_cars: 'Carros indisponíveis para esta categoria'
     search:
       success: 'Foram encontrado(s) %{count} resultado(s)'
       no_results: 'Nenhum resultado encontrado para o seguinte código: %{code}'
