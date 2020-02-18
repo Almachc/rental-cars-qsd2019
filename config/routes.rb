@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :clients
   resources :rentals, only: [:index, :show, :new, :create] do
     get 'search', on: :collection
+    get 'report', on: :collection
     get 'start', on: :member
     patch 'cancel', on: :member
     resources :car_rentals, only: [:create]

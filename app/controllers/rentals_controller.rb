@@ -9,8 +9,8 @@ class RentalsController < ApplicationController
     end
 
     def new
-        @clients = Client.all 
-        @car_categories = CarCategory.all 
+        @clients = Client.all
+        @car_categories = CarCategory.all
         @car_accessories = CarAccessory.all
         @rental = Rental.new
     end
@@ -19,13 +19,13 @@ class RentalsController < ApplicationController
         @rental = Rental.new(rental_params)
         @rental.code = SecureRandom.hex(7)
         @rental.user = current_user
-        
+
         if @rental.ok? && @rental.save
             flash[:notice] = t('.success')
             redirect_to @rental
         else
-            @clients = Client.all 
-            @car_categories = CarCategory.all 
+            @clients = Client.all
+            @car_categories = CarCategory.all
             @car_accessories = CarAccessory.all
             render :new
         end
@@ -46,6 +46,22 @@ class RentalsController < ApplicationController
         @rental = Rental.find(params[:id])
         @cars = Car.where(car_model: @rental.car_category.car_models, status: 'available')
         #@cars = @rental.car_category.cars (fazendo uso de 'has_many :cars, through: :car_models' na model 'CarCategory')
+    end
+
+    def report
+        @report = {categories: {}, models: {}, initial_date: params[:initial_date], end_date: params[:end_date]}
+
+        #Total de Locações por categoria em um determinado período
+        categories = CarCategory.all.to_a
+        categories.each do |category|
+            @report[:categories][category.name] = Rental.where(status: 'effective', car_category: category, created_at: params[:initial_date]..params[:end_date]).count
+        end
+
+        #Total de Locações por modelo de carro em um determinado período
+        models = CarModel.all.to_a
+        models.each do |model|
+            @report[:models][model.name] = CarRental.where(car: model.cars, created_at: params[:initial_date]..params[:end_date]).count
+        end
     end
 
     def cancel

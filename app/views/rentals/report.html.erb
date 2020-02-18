@@ -1,0 +1,26 @@
+<%= form_tag("/rentals/report", method: "get") do %>
+  <%= label_tag(:filter, "Filtrar locações por:") %>
+  <%= select_tag(:filter, raw('<option value="1">Categoria</option><option value="2">Filial</option><option value="3">Modelo de carro</option>')) %>
+  
+  <%= label_tag :initial_date, 'Período inicial' %>
+  <%= date_field_tag :initial_date, :date %>
+  <%= label_tag :end_date, 'Período final' %>
+  <%= date_field_tag :end_date, :date %>
+ 
+  <%= submit_tag("Buscar") %>
+<% end %>
+
+<% if @report.present? %>
+    <h2>Período: <%= @report[:initial_date] %> até <%= @report[:end_date] %></h2>
+
+    <h2> Relatório 01: Total de Locações por categoria<h3>
+    <% @report[:categories].each do |key, value| %>
+        <p><%= key %> = <%= value %><p>
+    <% end  %>
+
+    <h2> Relatório 02: Total de Locações por modelo<h3>
+    <% @report[:models].each do |key, value| %>
+        <p><%= key %> = <%= value %><p>
+    <% end  %>
+    
+<% end %>

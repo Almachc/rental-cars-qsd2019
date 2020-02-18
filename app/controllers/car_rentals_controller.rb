@@ -17,6 +17,7 @@ class CarRentalsController < ApplicationController
                                               start_mileage: car.mileage)
         if car_rental.save!
             flash[:notice] = t('.success')
+            rental.update(status: 'effective')
             redirect_to car_rental
         else  
             #render
