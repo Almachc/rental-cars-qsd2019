@@ -7,6 +7,7 @@ feature 'User views rental reports' do
         client = create(:client)
 
         manufacturer = create(:manufacturer)
+        subsidiary = create(:subsidiary)
 
         car_categoryA = create(:car_category, name: 'catA')
         car_categoryB = create(:car_category, name: 'catB')
@@ -17,10 +18,10 @@ feature 'User views rental reports' do
         car_model3 = create(:car_model, name: 'Creta', car_category: car_categoryC, manufacturer: manufacturer)
         car_model4 = create(:car_model, name: 'Credilds', car_category: car_categoryC, manufacturer: manufacturer)
 
-        car1 = create(:car, license_plate: 'ABC1234', car_model: car_model1)
-        car2 = create(:car, license_plate: 'CAB2345', car_model: car_model2)
-        car3 = create(:car, license_plate: 'BCA3456', car_model: car_model3)
-        car4 = create(:car, license_plate: 'RRR4567', car_model: car_model4)
+        car1 = create(:car, license_plate: 'ABC1234', car_model: car_model1, subsidiary: subsidiary)
+        car2 = create(:car, license_plate: 'CAB2345', car_model: car_model2, subsidiary: subsidiary)
+        car3 = create(:car, license_plate: 'BCA3456', car_model: car_model3, subsidiary: subsidiary)
+        car4 = create(:car, license_plate: 'RRR4567', car_model: car_model4, subsidiary: subsidiary)
 
         rental1 = create(:rental, code: 'CIC3301', client: client, car_category: car1.car_model.car_category, user: user, status: 'effective')
         rental2 = create(:rental, code: 'CIC3302', client: client, car_category: car2.car_model.car_category, user: user, status: 'effective')

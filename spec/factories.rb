@@ -41,7 +41,8 @@ FactoryBot.define do
 		color { "Chumbo" }
 		mileage { 7000 }
 		status { 0 }
-	  	car_model 
+		car_model
+		subsidiary
 	end
 
 	factory :rental do
@@ -70,10 +71,4 @@ FactoryBot.define do
 		daily_rate { 50.0 }
 		units { 1 }
 	end
-
-	# factory :accessory_rental do
-	# 	daily_rate { 50.0 }
-	# 	rental
-	# 	car_accessory
-	# end
 end

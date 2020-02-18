@@ -5,6 +5,7 @@ feature 'Admin registers car' do
         #Arrange
         user = create(:user)
         car_model = create(:car_model)
+        subsidiary = create(:subsidiary)
 
         #Act
         login_as(user, scope: :user)
@@ -16,6 +17,7 @@ feature 'Admin registers car' do
         fill_in 'Placa', with: 'ABC1234'
         fill_in 'Cor', with: 'Branco'
         select 'HB20', from: 'Modelo'
+        select 'Filial1', from: 'Filial'
         fill_in 'Quilometragem', with: '200'
         select 'Disponível', from: 'Status'
         click_on 'Enviar'
@@ -23,7 +25,7 @@ feature 'Admin registers car' do
         #Assert
         expect(Car.count).to eq 1
         car = Car.first
-        expect(car).to have_attributes(license_plate: 'ABC1234', car_model: car_model, 
+        expect(car).to have_attributes(license_plate: 'ABC1234', car_model: car_model, subsidiary: subsidiary,
                                        color: 'Branco', mileage: 200, status: 'available')
 
         expect(current_path).to eq car_path(car)
@@ -32,6 +34,7 @@ feature 'Admin registers car' do
         expect(page).to have_content('ABC1234')
         expect(page).to have_content('Branco')
         expect(page).to have_content('HB20')
+        expect(page).to have_content('Filial1')
         expect(page).to have_content('200')
         expect(page).to have_content('Disponível')
     end

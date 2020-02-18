@@ -36,6 +36,6 @@ class Api::V1::CarsController < Api::V1::ApiController
     private
 
     def car_params
-        params.require(:car).permit(:license_plate, :color, :car_model_id, :mileage, :status)
+        params.require(:car).permit(:license_plate, :color, :car_model_id, :subsidiary_id, :mileage, :status)
     end
 end

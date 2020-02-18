@@ -5,11 +5,12 @@ describe 'Car management' do
         it 'should render a JSON with all cars' do
             #Arrange
             manufacturer = Manufacturer.create!(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-            car2 = Car.create!(license_plate: 'ABC9999', color: 'Preto', car_model: car_model, mileage: '200')
-            car3 = Car.create!(license_plate: 'CIC3301', color: 'Bronze', car_model: car_model, mileage: '200')
+            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
+            car2 = Car.create!(license_plate: 'ABC9999', color: 'Preto', car_model: car_model, subsidiary: subsidiary, mileage: '200')
+            car3 = Car.create!(license_plate: 'CIC3301', color: 'Bronze', car_model: car_model, subsidiary: subsidiary, mileage: '200')
             
             #Act
             get api_v1_cars_path
@@ -37,11 +38,12 @@ describe 'Car management' do
         it 'should returned a server error (500)' do
             #Arrange
             manufacturer = Manufacturer.create!(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-            car2 = Car.create!(license_plate: 'ABC9999', color: 'Preto', car_model: car_model, mileage: '200')
-            car3 = Car.create!(license_plate: 'CIC3301', color: 'Bronze', car_model: car_model, mileage: '200')
+            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
+            car2 = Car.create!(license_plate: 'ABC9999', color: 'Preto', car_model: car_model, subsidiary: subsidiary, mileage: '200')
+            car3 = Car.create!(license_plate: 'CIC3301', color: 'Bronze', car_model: car_model, subsidiary: subsidiary, mileage: '200')
             
             allow(Car).to receive(:all).and_raise(ActiveRecord::ConnectionNotEstablished)
             
@@ -60,9 +62,10 @@ describe 'Car management' do
         it 'should render a JSON with details of a specific car' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             #Act
             get api_v1_car_path(car)
@@ -92,9 +95,10 @@ describe 'Car management' do
         it 'should returned a server error (500)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             allow(Car).to receive(:find).and_raise(ActiveRecord::ConnectionNotEstablished)
 
@@ -113,11 +117,12 @@ describe 'Car management' do
         it 'should create a car and render a JSON with its details' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
 
             #Act
-            post api_v1_cars_path, params: { car: { license_plate: 'ABC1234', color: 'Branco', car_model_id: car_model.id, mileage: '200' } }
+            post api_v1_cars_path, params: { car: { license_plate: 'ABC1234', color: 'Branco', car_model_id: car_model.id, subsidiary_id: subsidiary.id, mileage: '200' } }
         
             #Assert
             converted_json = JSON.parse(response.body, symbolize_names: true)
@@ -181,9 +186,10 @@ describe 'Car management' do
         it 'should update a car and render a JSON with its details' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200', subsidiary: subsidiary)
 
             #Act
             patch api_v1_car_path(car), params: { car: { license_plate: 'ABC1234', color: 'Laranja', car_model_id: car_model.id, mileage: '200' } }
@@ -203,9 +209,10 @@ describe 'Car management' do
         it 'should returned a client error (ActionController::ParameterMissing)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             #Act
             patch api_v1_car_path(car), params: { }
@@ -220,9 +227,10 @@ describe 'Car management' do
         it 'should returned a client error (ActiveRecord::RecordInvalid)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             #Act
             patch api_v1_car_path(car), params: { car: { car_model_id: nil } }
@@ -237,9 +245,10 @@ describe 'Car management' do
         it 'should returned a server error (500)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             allow_any_instance_of(Car).to receive(:update!).and_raise(ActiveRecord::ConnectionNotEstablished)
 
@@ -258,10 +267,11 @@ describe 'Car management' do
         it 'should delete a car and render a JSON with its details' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
-            car2 = Car.create!(license_plate: 'CBA1212', color: 'Branco', car_model: car_model, mileage: '200')
+            car1 = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
+            car2 = Car.create!(license_plate: 'CBA1212', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             #Act
             delete "/api/v1/cars/#{car2.id}"
@@ -290,9 +300,10 @@ describe 'Car management' do
         it 'should returned a server error (500)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200')
 
             allow_any_instance_of(Car).to receive(:destroy).and_raise(ActiveRecord::ConnectionNotEstablished)
 
@@ -311,9 +322,10 @@ describe 'Car management' do
         it 'must change the status of a particular car' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200', status: 'available')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200', status: 'available')
 
             #Act
             patch status_api_v1_car_path(car), params: { status: 'unavailable' }
@@ -330,9 +342,10 @@ describe 'Car management' do
         it 'should returned a client error (ActiveRecord::RecordInvalid)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200', status: 'available')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200', status: 'available')
 
             #Act
             patch status_api_v1_car_path(car), params: { status: 'valor_inexistente' }
@@ -347,9 +360,10 @@ describe 'Car management' do
         it 'should returned a server error (500)' do
             #Arrange
             manufacturer = Manufacturer.create(name: 'Fabricante1')
+            subsidiary = create(:subsidiary)
             car_category = CarCategory.create!(name: 'Categoria1', daily_rate: 1.2, car_insurance: 1.3, third_party_insurance: 1.4)
             car_model = CarModel.create!(name: 'Modelo1', year: '2019', manufacturer: manufacturer, motorization: '50', car_category: car_category, fuel_type: 'Etanol')
-            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, mileage: '200', status: 'available')
+            car = Car.create!(license_plate: 'ABC1234', color: 'Branco', car_model: car_model, subsidiary: subsidiary, mileage: '200', status: 'available')
 
             allow_any_instance_of(Car).to receive(:update).and_raise(ActiveRecord::ConnectionNotEstablished)
 

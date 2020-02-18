@@ -5,6 +5,8 @@
     <%= f.text_field :color %>
     <%= f.label :car_model_id, 'Modelo' %>
     <%= f.collection_select :car_model_id, @car_models, :id, :name %>
+    <%= f.label :subsidiary_id, 'Filial' %>
+    <%= f.collection_select :subsidiary_id, @subsidiaries, :id, :name %>
     <%= f.label :mileage, 'Quilometragem' %>
     <%= f.text_field :mileage %>
     <%= f.label :status_id, 'Status' %>

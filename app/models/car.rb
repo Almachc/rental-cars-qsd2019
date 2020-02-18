@@ -1,5 +1,6 @@
 class Car < ApplicationRecord
   belongs_to :car_model
+  belongs_to :subsidiary
 
   enum status: { available: 0, unavailable: 5 }
 

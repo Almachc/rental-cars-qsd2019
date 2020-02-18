@@ -50,6 +50,7 @@ feature 'User starts rental' do
         user = create(:user)
         manufacturer = create(:manufacturer)
 
+
         car_category1 = create(:car_category, name: 'catA')
         car_model1 = create(:car_model, name: 'HB20', car_category: car_category1,
                             manufacturer: manufacturer)
@@ -58,9 +59,10 @@ feature 'User starts rental' do
         car_model2 = create(:car_model, name: 'Azera', car_category: car_category2,
                             manufacturer: manufacturer)
         
-        create(:car, car_model: car_model1, license_plate: 'ABC1234')
-        create(:car, car_model: car_model1, license_plate: 'SLA9999')
-        create(:car, car_model: car_model2, license_plate: 'FDM2000')
+        subsidiary = create(:subsidiary)
+        create(:car, car_model: car_model1, license_plate: 'ABC1234', subsidiary: subsidiary)
+        create(:car, car_model: car_model1, license_plate: 'SLA9999', subsidiary: subsidiary)
+        create(:car, car_model: car_model2, license_plate: 'FDM2000', subsidiary: subsidiary)
 
         client = create(:client)
         rental = create(:rental, code: 'CIC3333', client: client, car_category: car_category1, user: user)

@@ -9,8 +9,10 @@ feature 'User views all car rentals' do
         car_model = create(:car_model)
         client = create(:client)
 
-        car1 = create(:car, license_plate: 'ABC1234', car_model: car_model)
-        car2 = create(:car, license_plate: 'BAR1940', car_model: car_model)
+        subsidiary = create(:subsidiary)
+
+        car1 = create(:car, license_plate: 'ABC1234', car_model: car_model, subsidiary: subsidiary)
+        car2 = create(:car, license_plate: 'BAR1940', car_model: car_model, subsidiary: subsidiary)
 
         rental1 = create(:rental, code: 'CIC3301', client: client,
                         car_category: car1.car_model.car_category, user: user)
